@@ -9,7 +9,7 @@ export const metadata = {
     return (
       <html lang="en">
       
-        <body>
+        <body className='flex flex-col h-screen'>
           <HeaderSesion/>
           {children}
         </body>

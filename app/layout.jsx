@@ -1,4 +1,8 @@
 import '@/styles/globals.css';
+import "tw-elements-react/dist/css/tw-elements-react.min.css";
+
+import { Roboto } from "next/font/google";
+const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
 export const metadata = {
   title: 'Bistro POS',
@@ -8,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body>
+      <body className={roboto.className}>
         {children}
       </body>
     </html>
