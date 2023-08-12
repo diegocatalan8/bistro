@@ -7,6 +7,7 @@ function HeaderSesion() {
       <div className='flex w-full flex-wrap items-center justify-between px-3'>
         <div className='ml-2 flex flex-row items-center'>
           <Image
+            alt='Logo'
             src={Logo}
             className='h-[80px] w-[80px]'
           />
