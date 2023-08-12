@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
           
             
       
-            <div className='bg-[#e8e8e8] lg:w-[85%] h-screen lg:absolute lg:right-0'>
+            <div className='bg-[#e8e8e8] lg:w-[80%] h-screen lg:absolute lg:right-0'>
             {children}
             </div>
      
