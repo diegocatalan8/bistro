@@ -84,7 +84,7 @@ export default function Catalogue(){
 
     <div className='px-4 py-6 h-[90%] flex flex-col md:flex-row justify-between w-full'>
       
-      <Dropdown catalogueList={catalogueList} customClick ={(item)=>{
+      <Dropdown classProp={"md:hidden"} list={catalogueList} customClick ={(item)=>{
         handleVerticalClick(item.name);
         localRoutePush(item.name);
       }}/>
