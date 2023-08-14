@@ -7,12 +7,10 @@ export const metadata = {
   
   export default function SesionLayout({ children }) {
     return (
-      <html lang="en">
-      
-        <body className='flex flex-col h-screen'>
+        <section className='flex flex-col h-screen'>
           <HeaderSesion/>
           {children}
-        </body>
-      </html>
+        </section>
+    
     )
   }

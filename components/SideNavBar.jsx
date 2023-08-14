@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Logo from '@/assets/logo.jpg'
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,7 +13,10 @@ import { MdArticle } from 'react-icons/md';
 
 function SideNavbar() {
     const [verticalActive, setVerticalActive] = useState("Nueva Orden");
+    const [isMenuVisible, setIsMenuVisible] = useState(true);
+    const [size, setSize] = useState("static");
 
+    
     const handleVerticalClick = (value) => {
         if (value === verticalActive) {
         return;
@@ -21,18 +24,36 @@ function SideNavbar() {
         setVerticalActive(value);
     };
 
-  return (
-    <div>
-      <Disclosure  as="nav">
 
-        <Disclosure.Button className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        setSize(window.innerWidth >= 768 ? "static" : "z-20 absolute");
+  
+        const handleResize = () => {
+          setSize(window.innerWidth >= 768 ? "static" : "z-20 absolute");
+        };
+  
+        window.addEventListener('resize', handleResize);
+  
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }
+    }, []);
+  
+
+  return (
+    
+      <Disclosure>
+
+        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
           <GiHamburgerMenu
-            className=" lg:hidden h-6 w-6"
+            className="xl:hidden h-6 w-6"
             aria-hidden="true"
           />
         </Disclosure.Button>
 
-        <div className="p-6 w-[60%] md:w-[40%] h-screen bg-white z-20 fixed top-0 -left-96 md:-left-[600px] lg:left-0 lg:w-[20%]  peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
+        <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[20%]`}>
           <div className="flex flex-col justify-start item-center">
             {/* Logo */}
             <div>
@@ -100,8 +121,10 @@ function SideNavbar() {
         </div>
 
       </Disclosure>
-    </div>
+   
   );
 }
 
 export default SideNavbar;
+
+{/**-left-96 md:-left-[600px] lg:left-0  peer-focus:left-0 peer:transition ease-out delay-150 duration-200*/}

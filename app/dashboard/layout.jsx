@@ -1,5 +1,5 @@
-//import SideBar from '@/components/SideBar';
 import SideNavbar from '@/components/SideNavBar';
+
 
 export const metadata = {
   title: 'Bistro POS',
@@ -10,20 +10,18 @@ export default function DashboardLayout({ children }) {
 
 
   return (
-    <html lang='en'>
-      <body className='flex flex-row relative'>
-           
-          
-            <SideNavbar/>
+   
+      <section className='flex flex-row relative'>
           
             
-      
-            <div className='bg-[#e8e8e8] lg:w-[80%] h-screen lg:absolute lg:right-0'>
-            {children}
-            </div>
-     
-        
-      </body>
-    </html>
+  
+           
+              <SideNavbar/>
+              {children}
+           
+ 
+  
+      </section>
+   
   );
 }
