@@ -89,7 +89,7 @@ export default function Catalogue(){
         localRoutePush(item.name);
       }}/>
 
-      <aside className={`${sidebarVisible ? '' : 'hidden'} h-full  w-[25%] md:w-[60%] lg:w-[30%]  mr-4 rounded-lg bg-white  flex flex-col  justify-start`} >
+      <aside className={`${sidebarVisible ? '' : 'hidden'} h-full  w-[25%] md:w-[40%] lg:w-[30%]  mr-4 rounded-lg bg-white  flex flex-col  justify-start`} >
        
         {catalogueList.map((item)=>(
               <ItemSubmenu  key={item.id} verticalActive={verticalActive} item={item} onClick={()=>{
@@ -101,7 +101,7 @@ export default function Catalogue(){
       </aside>
  
 
-      <section className='h-full w-full md:w-[40%] lg:w-[70%] rounded-lg bg-white'>
+      <section className='h-full w-full md:w-[60%] lg:w-[70%] rounded-lg bg-white'>
               {componentToRender}
       </section>
               

@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { TEInput } from "tw-elements-react";
-import Button from './Button';
+
+
 
 function ProductsForm() {
 
@@ -15,140 +15,154 @@ function ProductsForm() {
 
   return (
     <div className='flex flex-col h-full w-full  p-6'>
-        <h2 className='text-[22px] font-semibold w-full'>Crear Articulo</h2>
+        <h2 className='text-[22px] font-semibold w-full mb-6'>Crear Articulo</h2>
         
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-between w-full  grow'>
-
-        <div className='flex flex-col w-full justify-between'>
-            <section className='flex flex-col justify-between mt-6'>
-
-                <div className='flex flex-row w-full justify-between'>
-                    <div className="relative w-[45%]">
-                        <TEInput
-                        type="text"
-                        id="name"
-                        label="Nombre del articulo"
-                        size="lg"
-                        {...register('name', {
-                            required:true,
-                            
-                        })}
-                        ></TEInput>
-                        {errors.name?.type === 'required' && <p className='text-red-500 font-semibold'>Debe ingresar el nombre del articulo.</p>}
-                    </div>
-
-                    <div className="relative w-[53%]">
-                        <TEInput
-                        type="text"
-                        id="description"
-                        label="Descripción"
-                        size="lg"
-                        {...register('description', {
-                            required:true,
-                        })}
-                        ></TEInput>
-                        {errors.description?.type === 'required' && <p className='text-red-500 font-semibold'>Debe ingresar la descripción del articulo.</p>}
-                    </div>
-                </div>
-
-                <div className='flex flex-col h-fit  w-full mt-6'>
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-start w-full  grow'>
+              <div className='flex flex-row justify-between'>
+                  <div className='w-[48%] flex flex-col'>
+                      <div>
                         <label
-                            htmlFor="formFile"
-                            className="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
+                          htmlFor='email'
+                          className='block text-sm font-medium leading-6 text-gray-900'
                         >
-                        Seleccionar imagen
+                          Email address
                         </label>
-                        <input
-                        className="relative m-0  block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
-                        id="formFileLg"
-                        type="file"
-                        accept="image/*"
-                        {...register('image')}
-                        />
-                   
-                </div>
-                
-            </section>
-
-            <section className='flex flex-col w-full mt-6'>
-                <label className="text-[#737373]" for="mySelect">Selecciona un grupo de opciones:</label>
-                <div className="relative w-full  ">
-                <select
-                defaultValue=""
-                className = "w-full h-[43px] px-4 rounded-md text-black border-[#d4d4d4] border border-solid"
-                id="groupOptions"
-                {...register('groupOptions', {
-                    required:true,
-                })}
-                >
-                <option value="" disabled >
-                    Selecciona grupo de opciones...
-                </option>
-                <option value="option1">Opción 1</option>
-                <option value="option2">Opción 2</option>
-                <option value="option3">Opción 3</option>
-                                
-                </select>
-                {errors.groupOptions?.type === 'required' && <p className='text-red-500 font-semibold'>Debe seleccionar un grupo de opciones.</p>}
-                </div>
-            </section>
-
-            <section className='flex flex-col lg:flex-row w-full mt-6'>
-                    <div className='relative w-full'>
-                        <label className="text-[#737373]" for="mySelect">Selecciona una categoria:</label>
-                        <div className="w-full">
-                            <select
-                            defaultValue=""
-                            className = "w-full h-[43px] px-4 rounded-md text-black border-[#d4d4d4] border border-solid"
-                            id="category"
-                            {...register('category', {
-                                required:true,
-                            })}
-                            >
-                            <option value="" disabled>
-                                Selecciona una categoria...
-                            </option>
-                            <option value="option1">Opción 1</option>
-                            <option value="option2">Opción 2</option>
-                            <option value="option3">Opción 3</option>
-                                            
-                            </select>
-                            {errors.category?.type === 'required' && <p className='text-red-500 font-semibold'>Debe seleccionar una categoria.</p>}
+                        <div className='mt-2'>
+                          <input
+                            id='email'
+                            name='email'
+                            type='email'
+                            autoComplete='email'
+                            required
+                            className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                          />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className='mt-6 w-full flex justify-start items-center'>
-                        <input
-                        className="mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-primary checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:bg-neutral-600 dark:after:bg-neutral-400 dark:checked:bg-primary dark:checked:after:bg-primary dark:focus:before:shadow-[3px_-1px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca]"
-                        type="checkbox"
-                        role="switch"
-                        id="flexSwitchCheckDefault" 
-                        {...register('activo')}
-                        />
+                      <div className='mt-3'>
                         <label
-                            className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                            htmlFor="flexSwitchCheckDefault"
-                        >Activo</label>
-                    </div>
-            </section>
-        </div>
+                          htmlFor='email'
+                          className='block text-sm font-medium leading-6 text-gray-900'
+                        >
+                          Email address
+                        </label>
+                        <div className='mt-2'>
+                          <input
+                            id='email'
+                            name='email'
+                            type='email'
+                            autoComplete='email'
+                            required
+                            className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                          />
+                        </div>
+                      </div>
+                  </div>
 
+                  <div className="w-[48%]  lg:px-4 flex flex-col">
+                      <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                        Cover photo
+                      </label>
+                      
+                      <div className="mt-2 h-[120px] flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-10">
+                        <div className="flex flex-col justify-center items-center">
+                        
+                          <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                            <label
+                              htmlFor="file-upload"
+                              className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a image</span>
+                              <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            </label>
+                            
+                          </div>
+                          
+                        </div>
+                      </div>
+                  </div>
+              </div>
 
-        <div className='flex flex-row h-[50px] justify-end'>
-                <Button 
-                type="button"
-                text="Cancelar"
-                color="bg-danger"
-                classProp='rounded-lg font-semibold text-[22px] mr-4'
-                />
+              <div className='mt-3'>
+                <label
+                  htmlFor='email'
+                  className='block text-sm font-medium leading-6 text-gray-900'
+                >
+                  Email address
+                </label>
+                <div className='mt-2'>
+                  <input
+                    id='email'
+                    name='email'
+                    type='email'
+                    autoComplete='email'
+                    required
+                    className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                  />
+                </div>
+              </div>
 
-                <Button 
-                type="submit"
-                text="Confirmar"
-                color="bg-primary"
-                classProp='rounded-lg font-semibold text-[22px]'
-                />
-        </div>
+              <div className="mt-3">
+              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                Country
+              </label>
+              <div className="mt-2">
+                <select
+                  id="country"
+                  name="country"
+                  autoComplete="country-name"
+                  className="block w-full h-[40px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                >
+                  <option>United States</option>
+                  <option>Canada</option>
+                  <option>Mexico</option>
+                </select>
+              </div>
+              </div>
+
+              <div className="mt-3">
+              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                Country
+              </label>
+              <div className="mt-2">
+                <select
+                  id="country"
+                  name="country"
+                  autoComplete="country-name"
+                  className="block w-full h-[40px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                >
+                  <option>United States</option>
+                  <option>Canada</option>
+                  <option>Mexico</option>
+                </select>
+              </div>
+              </div>
+
+              <div className={`w-full  flex flex-col mt-3 `}>
+        
+                <label className='relative inline-flex items-center cursor-pointer'>
+                    <input
+                      
+                      type='checkbox'
+                      value=''
+                      className='sr-only peer'
+                      
+                      
+                    />
+                    <div className="w-11 h-6 bg-gray-200 rounded-md peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-md after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span className='ml-3 py-1 text-sm font-medium text-gray-900 dark:text-gray-300'>
+                      Activo
+                    </span>
+                    
+                </label>
+
+                  
+              </div>
+
+             
+       
+
+      
         </form>
     </div>
   )

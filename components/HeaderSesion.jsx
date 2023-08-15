@@ -12,7 +12,7 @@ function HeaderSesion() {
             className='h-[80px] w-[80px]'
           />
           <p
-            className='h-fit text-xl font-bold text-gray-600 dark:text-neutral-200'
+            className='h-fit text-xl font-bold text-black dark:text-neutral-200'
           >
             BISTRO POS
           </p>
