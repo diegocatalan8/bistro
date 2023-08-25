@@ -1,29 +1,62 @@
 "use client"
 
 import React, {useEffect, useState} from "react";
+import APIUtility from '@/services/ApiUtility';
+import Modal from './Modal';
 import Logo from '@/assets/logo.jpg'
 import Link from 'next/link';
 import Image from 'next/image';
+
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from '@headlessui/react';
 import {MdOutlineSettings, MdOutlineLogout} from "react-icons/md";
 import { BiSolidFilePlus, BiListCheck, BiTransferAlt } from 'react-icons/bi';
 import { MdArticle } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
+
 
 
 function SideNavbar() {
-    const [verticalActive, setVerticalActive] = useState("Nueva Orden");
+    const router = useRouter();
     const [isMenuVisible, setIsMenuVisible] = useState(true);
     const [size, setSize] = useState("static");
+    const [verticalActive, setVerticalActive] = useState('/dashboard/order');
 
-    
+    //MODAL
+    const modalText ={
+      title:'Cerrar Sesion',
+      description:'¿Esta seguro que desea continuar?',
+      buttonConfirmText:'Logout'
+    }
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const customClickConfirmModal = async ()=>{
+             await fetchCookie();
+             setIsModalOpen(false);
+             router.push('/sesion/login');
+    }
+    const customClickCancelModal =()=>{
+          setIsModalOpen(false);
+    }
+
+
+    const fetchCookie = async (obj = {}) => {
+      try {
+        const url = 'http://localhost:3000/api/logout';
+        const response = await APIUtility.postData(url, obj);
+        console.log('Datos recibidos:', response);
+        router.push('/sesion/login');
+      } 
+      catch (error) {
+        console.error('Error en la petición:', error.message);
+      }
+    };
+
     const handleVerticalClick = (value) => {
         if (value === verticalActive) {
         return;
         }
         setVerticalActive(value);
     };
-
 
     useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -40,6 +73,14 @@ function SideNavbar() {
         };
       }
     }, []);
+
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        setVerticalActive(window.location.pathname);
+      }
+    }, []);
+
+   
   
 
   return (
@@ -62,37 +103,37 @@ function SideNavbar() {
             {/* panel */}
             <div className=" my-4 border-b border-gray-100 pb-4">
 
-             <Link href='/dashboard'>
-             <div onClick={()=>{handleVerticalClick("Crear Orden")}} className={`${verticalActive === "Crear Orden" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiSolidFilePlus className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "Crear Orden" ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "Crear Orden" ? "text-white" : ""}`}>
+             <Link href='/dashboard/order'>
+             <div onClick={()=>{handleVerticalClick("/dashboard/order")}} className={`${verticalActive === "/dashboard/order" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                    <BiSolidFilePlus className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/order" ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/order"  ? "text-white" : ""}`}>
                     Crear Orden
                     </h3>
                 </div>
              </Link>
 
               <Link href='/dashboard/orders'>
-              <div onClick={()=>{handleVerticalClick("Ordenes")}} className={`${verticalActive === "Ordenes" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiListCheck className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "Ordenes" ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "Ordenes" ? "text-white" : ""}`}>
+              <div onClick={()=>{handleVerticalClick("/dashboard/orders")}} className={`${verticalActive === "/dashboard/orders"  ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                    <BiListCheck className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/orders"  ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/orders" ? "text-white" : ""}`}>
                     Ordenes
                     </h3>
                 </div>
               </Link>
 
               <Link href='/dashboard/transactions'>
-              <div onClick={()=>{handleVerticalClick("Transacciones")}} className={`${verticalActive === "Transacciones" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiTransferAlt className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "Transacciones" ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "Transacciones" ? "text-white" : ""}`}>
+              <div onClick={()=>{handleVerticalClick("/dashboard/transactions")}} className={`${verticalActive === "/dashboard/transactions" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                    <BiTransferAlt className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/transactions" ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/transactions" ? "text-white" : ""}`}>
                     Transacciones
                     </h3>
                 </div>
               </Link>
              
               <Link href='/dashboard/catalogue'>
-              <div onClick={()=>{handleVerticalClick("Catalogos")}} className={`${verticalActive === "Catalogos" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <MdArticle className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "Catalogos" ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "Catalogos" ? "text-white" : ""}`}>
+              <div onClick={()=>{handleVerticalClick("/dashboard/catalogue")}} className={`${verticalActive === "/dashboard/catalogue" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                    <MdArticle className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/catalogue" ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/catalogue" ? "text-white" : ""}`}>
                     Catalogos
                     </h3>
                 </div>
@@ -100,16 +141,22 @@ function SideNavbar() {
               
             </div>
             {/* setting  */}
-            <div  className=" my-4 border-b border-gray-100 pb-4">
-                <div onClick={()=>{handleVerticalClick("Configuraciones")}} className={`${verticalActive === "Configuraciones" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <MdOutlineSettings className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "Configuraciones" ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "Configuraciones" ? "text-white" : ""}`}>
-                    Ajustes
-                    </h3>
-                </div>
-            </div>
+           
+              <div  className=" my-4 border-b border-gray-100 pb-4">
+                <Link href='/dashboard/configurations'>
+                  <div onClick={()=>{handleVerticalClick("/dashboard/configurations")}} className={`${verticalActive === "/dashboard/configurations" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                      <MdOutlineSettings className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/configurations" ? "text-white" : ""}`} />
+                      <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/configurations" ? "text-white" : ""}`}>
+                      Ajustes
+                      </h3>
+                  </div>
+                </Link>
+              </div>
+            
             {/* logout */}
-            <div className=" my-4">
+            <div onClick={()=>{
+              setIsModalOpen(true);
+            }} className=" my-4">
             <div  className={` flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
                 <MdOutlineLogout className={`text-2xl text-gray-600 group-hover:text-white `}/>
                 <h3 className="text-base text-gray-800 group-hover:text-white font-semibold ">
@@ -119,6 +166,15 @@ function SideNavbar() {
             </div>
           </div>
         </div>
+        <Modal 
+        title={modalText.title}
+        description={modalText.description}
+        buttonConfirmText={modalText.buttonConfirmText}
+
+        isModalOpen={isModalOpen}
+        customClickCancelModal={customClickCancelModal}
+        customClickConfirmModal={customClickConfirmModal}
+        />
 
       </Disclosure>
    
