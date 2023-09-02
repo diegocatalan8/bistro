@@ -86,10 +86,6 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
     }
   };
 
-  
-
-
-
   useEffect(()=>{
     getData();
   }, [getItems, isModalOpen])

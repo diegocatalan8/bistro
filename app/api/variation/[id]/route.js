@@ -8,7 +8,7 @@ export async function GET(res, req){
     const {params} = req;
     const {id} = params;
     
-    const query = 'select v.id, v.name, v.description, v.price, v.status, v.product_id, p.name as product_name, v.created_by as created_by_id, v.modified_by as modified_by_id, u.name as user_name, v.created_at, v.modified_at from tbl_variation as v inner join tbl_product as p on v.product_id = p.id inner join tbl_user as u on  v.created_by = u.id where v.status = true and v.id = $1;'
+    const query = `SELECT v.ID, v.NAME, v.DESCRIPTION, v.PRICE, v.CREATED_BY AS CREATED_BY_ID, v.MODIFIED_BY AS MODIFIED_BY_ID, v.CREATED_AT, v.MODIFIED_AT, v.STATUS, v.PRODUCT_ID, p.NAME AS PRODUCT_NAME, u.NAME as USER_NAME, c.NAME AS CATEGORY_NAME FROM TBL_VARIATION AS v INNER JOIN TBL_PRODUCT AS p ON v.PRODUCT_ID = p.ID INNER JOIN TBL_USER AS u ON  v.created_by = u.id INNER JOIN TBL_CATEGORY AS c ON p.category_id = c.id WHERE v.STATUS = TRUE AND p.STATUS = TRUE AND c.STATUS = TRUE AND V.PRODUCT_ID = $1`
 
     const data =  await conn.query(query, [id]);
     const response = data.rows;

@@ -1,18 +1,20 @@
 "use client"
 
 import React, {useEffect, useState} from "react";
+import { useRouter } from 'next/navigation';
 import APIUtility from '@/services/ApiUtility';
 import Modal from './Modal';
 import Logo from '@/assets/logo.jpg'
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAccountContext } from '@/context/account/AccountContext';
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from '@headlessui/react';
 import {MdOutlineSettings, MdOutlineLogout} from "react-icons/md";
 import { BiSolidFilePlus, BiListCheck, BiTransferAlt } from 'react-icons/bi';
 import { MdArticle } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
+
 
 
 
@@ -22,6 +24,8 @@ function SideNavbar() {
     const [size, setSize] = useState("static");
     const [verticalActive, setVerticalActive] = useState('/dashboard/order');
 
+    const {setUser} = useAccountContext();
+
     //MODAL
     const modalText ={
       title:'Cerrar Sesion',
@@ -29,10 +33,12 @@ function SideNavbar() {
       buttonConfirmText:'Logout'
     }
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
     const customClickConfirmModal = async ()=>{
              await fetchCookie();
              setIsModalOpen(false);
              router.push('/sesion/login');
+             setUser(null);
     }
     const customClickCancelModal =()=>{
           setIsModalOpen(false);
@@ -87,14 +93,21 @@ function SideNavbar() {
     
       <Disclosure>
 
-        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-2 left-3 z-30 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
           <GiHamburgerMenu
             className="xl:hidden h-6 w-6"
             aria-hidden="true"
           />
         </Disclosure.Button>
 
-        <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[20%]`}>
+        <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[22%]`}>
+          <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-2 left-3 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+            <GiHamburgerMenu
+              className="xl:hidden h-6 w-6"
+              aria-hidden="true"
+            />
+          </Disclosure.Button>
+        
           <div className="flex flex-col justify-start item-center">
             {/* Logo */}
             <div>
