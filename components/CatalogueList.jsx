@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import APIUtility from '@/services/ApiUtility';
 import { BiPencil } from 'react-icons/bi';
-import { BiTrash } from 'react-icons/bi';
+import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from '@/components/Modal'; 
 
 function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, activePostHttpMethod, dataToEdit, setDataToEdit, idUser=1}) {
@@ -154,7 +154,7 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
                                   setIsModalOpen(true);
                                   setDataToEdit(item);
                                 }} className='text-red-500 hover:text-white border-2 border-solid border-red-500 hover:border-red-800 hover:bg-red-500 rounded-md h-[40px] w-[40px] flex justify-center items-center'>
-                                        <BiTrash className=' w-[20px] h-[30px]'/>
+                                        <BiSolidTrashAlt className=' w-[20px] h-[30px]'/>
                                 </button>
                             </div>
                       </div>

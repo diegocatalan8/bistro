@@ -9,7 +9,7 @@ import Logo from '@/assets/logo.jpg'
 import Image from 'next/image';
 
 
-function AddProduct({isModalOpen, customCloseModal, data, variations, orderId}) {
+function AddProduct({changeState, isModalOpen, customCloseModal, data, variations, orderId}) {
    
     const router = useRouter();
     const cancelButtonRef = useRef(null);
@@ -37,6 +37,7 @@ function AddProduct({isModalOpen, customCloseModal, data, variations, orderId}) 
         console.log(data);
         closeModal();
         create(data);
+        
     }
 
     const create = async (obj) => {
@@ -51,6 +52,7 @@ function AddProduct({isModalOpen, customCloseModal, data, variations, orderId}) 
         const url = 'http://localhost:3000/api/cart';
         const response = await APIUtility.postData(url, struct);
         console.log('Datos recibidos:', response);
+        changeState();
       } 
       catch (error) {
         console.error('Error en la petición:', error.message);

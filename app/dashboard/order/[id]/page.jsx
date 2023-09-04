@@ -4,6 +4,7 @@ import APIUtility from '@/services/ApiUtility';
 import Image from 'next/image';
 import Logo from '@/assets/logo.jpg'
 import AddProduct from '@/components/AddProduct';
+import CartOfOrders from '@/components/CartOfOrders';
 
 
 function PageOrder({params}) {
@@ -12,7 +13,7 @@ function PageOrder({params}) {
   const {id} = params;
 
   //CART LOGIC OPEN
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(true);
 
   //CATEGORY ACTIVATE
   const [categoryActive, setCategoryActive] = useState("Todos");
@@ -63,8 +64,6 @@ function PageOrder({params}) {
       }
   };
 
-
-
   //SEARCH BAR
   const [productToFind, setProductToFind] = useState('');
   const handleInputChangeSearch = (e) => {
@@ -109,6 +108,11 @@ function PageOrder({params}) {
     setIsModalOpen(false);
 }
 
+  //UPDATE THE STATE OF COMPONENT CARTOFORDERS.JS
+  const [update, setUpdate] = useState(false);
+  const changeState = () =>{
+    setUpdate(!update);
+  }
 
 
   useEffect(()=>{
@@ -116,6 +120,12 @@ function PageOrder({params}) {
      getProducts();
      getVariations();
   }, [])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsCartOpen(window.innerWidth < 821 ? false : true);
+    }
+  }, []);
 
   return (
     <div className='Container relative z-10  w-full h-full flex flex-row'>
@@ -180,15 +190,13 @@ function PageOrder({params}) {
                 data={dataModal}
                 variations={variations}
                 orderId={id}
+                changeState={changeState}
               />
           </section>
 
-          <aside className={`Aside bg-red-500 h-full flex flex-row ${isCartOpen ? 'w-full absolute z-20 lg:static lg:z-0  lg:w-[35%] xl:w-[30%]' : 'w-[10%] md:w-[5%] lg:static lg:z-0 lg:w-[35%] xl:w-[30%]'}`}>
-              <div onClick={()=>{setIsCartOpen(!isCartOpen)}} className={`ButtonAside bg-orange-500  h-full ${isCartOpen ? 'w-[10%] lg:hidden' : 'w-full lg:hidden'}`}>
-                      
-              </div>
-          
-          </aside>
+          <CartOfOrders changeState={changeState} update={update} orderId={id} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
+
+         
 
     </div>
   )
