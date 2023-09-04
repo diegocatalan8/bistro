@@ -167,7 +167,7 @@ function PageOrder({params}) {
                   <button onClick={()=>{
                       handleCategoryClick('Todos');
                       setProductToFind('');
-                  }} className={`rounded-lg w-fit h-[90%] md:h-[60%] px-2 mr-3 ${categoryActive === 'Todos' ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
+                  }} className={`rounded-lg w-fit h-[90%] md:min-h-[60%] px-2 mr-3 ${categoryActive === 'Todos' ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
                           Todos
                   </button>
                       {
@@ -175,7 +175,7 @@ function PageOrder({params}) {
                             <button key={category.id} onClick={()=>{
                               handleCategoryClick(category.name);
                               setProductToFind(category.name);
-                            }} className={`rounded-lg w-fit h-[90%] md:h-[60%] px-3 mr-3 ${categoryActive === category.name ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
+                            }} className={`rounded-lg w-fit h-[90%] md:min-h-[60%] px-3 mr-3 ${categoryActive === category.name ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
                                     {category.name}
                             </button>
                         ))

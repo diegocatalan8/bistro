@@ -17,7 +17,7 @@ function CardOrder({item, customClick}) {
 
 
   return (
-    <div onClick={customClick} className={`mr-5 lg:mb-5  cursor-pointer p-6 mt-10 md:mt-5 lg:mt-0  shadow-sm flex flex-col text-center justify-between items-center bg-white w-[60%] md:w-[45%] lg:w-[30%] xl:w-[18%] h-[30%] lg:h-[35%] rounded-xl hover:border-2 hover:border-solid hover:border-blue-500 hover:shasdow-lg`}>
+    <div onClick={customClick} className={`md:mr-5 lg:mb-5 cursor-pointer p-6 mt-5 md:mt-5 lg:mt-0  shadow-sm flex flex-col text-center justify-between items-center bg-white w-[60%] md:w-[45%] lg:w-[30%] xl:w-[18%] h-[30%] lg:h-[35%] rounded-xl hover:border-2 hover:border-solid hover:border-blue-500 hover:shasdow-lg`}>
             <div className='w-full'>
                 <h2 className='w-full text-center font-semibold'>{'Orden #'+item.id}</h2>
                 <p>{item.description}</p>

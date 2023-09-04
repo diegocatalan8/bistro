@@ -102,12 +102,7 @@ function SideNavbar() {
         </Disclosure.Button>
 
         <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[22%]`}>
-          <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-0 left-0 md:top-2 md:left-3 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-[#2E68FF] hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
-            <GiHamburgerMenu
-              className="md:hidden h-6 w-6"
-              aria-hidden="true"
-            />
-          </Disclosure.Button>
+    
         
           <div className="flex flex-col justify-start item-center">
             {/* Logo */}
@@ -126,14 +121,6 @@ function SideNavbar() {
                 </div>
              </Link>
 
-              <Link href='/dashboard/orders'>
-              <div onClick={()=>{handleVerticalClick("/dashboard/orders")}} className={`${verticalActive === "/dashboard/orders"  ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiListCheck className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/orders"  ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/orders" ? "text-white" : ""}`}>
-                    Ordenes
-                    </h3>
-                </div>
-              </Link>
 
               <Link href='/dashboard/transactions'>
               <div onClick={()=>{handleVerticalClick("/dashboard/transactions")}} className={`${verticalActive === "/dashboard/transactions" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>

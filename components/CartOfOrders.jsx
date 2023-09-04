@@ -132,7 +132,6 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   //USE EFFECTS
   useEffect(()=>{
         getProducts();
-       
   }, [update])
 
   useEffect(()=>{
