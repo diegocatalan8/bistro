@@ -4,14 +4,13 @@ import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 import { Fragment, useRef} from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { useRouter } from 'next/navigation';
 import Logo from '@/assets/logo.jpg'
 import Image from 'next/image';
 
 
 function AddProduct({changeState, isModalOpen, customCloseModal, data, variations, orderId}) {
    
-    const router = useRouter();
+    
     const cancelButtonRef = useRef(null);
     const [quantityItems, setQuantityItems] = useState(1);
 
@@ -31,12 +30,16 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
         }
         
     }
+    const resetCounter = () =>{
+        setQuantityItems(1);
+    }
     const {register, formState:{errors}, handleSubmit, reset} = useForm();
 
     const  onSubmit = async (data) =>{
         console.log(data);
         closeModal();
         create(data);
+        resetCounter();
         
     }
 
@@ -64,6 +67,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
         customCloseModal();
         reset();
         setBoxChange(null);
+        resetCounter();
     }
 
     const [boxChange, setBoxChange] = useState(null);

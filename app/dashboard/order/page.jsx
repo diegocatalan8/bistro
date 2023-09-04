@@ -43,8 +43,8 @@ function Order() {
 
   
   return (
-    <div className='h-full w-full justify-center md:justify-start flex-wrap  flex flex-row  px-6 py-6 overflow-y-scroll'>
-         
+    <div className='border-2 border-solid border-red-500 h-full w-full justify-center md:justify-start flex-wrap  flex flex-row  px-6 py-6 overflow-y-scroll'>
+
          <div onClick={openModal} className='mr-5 lg:mb-5   cursor-pointer mt-10 md:mt-5 lg:mt-0 border-2 border-black  border-dotted shadow-sm flex flex-col text-center justify-center  items-center bg-white w-[60%] md:w-[45%] lg:w-[30%] xl:w-[18%] h-[30%] lg:h-[35%] rounded-xl '>
             <p className='text-[40px]'>+</p>        
             <h2 className='text-[20px] w-full'>Nueva orden</h2> 

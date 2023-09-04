@@ -7,7 +7,7 @@ import Logo from '@/assets/logo.jpg';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from './Modal';
 
-function CartOfOrders({changeState, update, orderId, isCartOpen, setIsCartOpen, userId = 1}) {
+function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, setIsCartOpen, userId = 1}) {
   
   //GET DATA
   const [products, setProducts] = useState([]);
@@ -23,18 +23,7 @@ function CartOfOrders({changeState, update, orderId, isCartOpen, setIsCartOpen, 
     }
   };
 
-  const[orderDetails, setOrderDetails] = useState([]);
-  const getOrderDetails = async () => {
-    try {
-      const ordersList = await APIUtility.fetchData(`http://localhost:3000/api/order/${orderId}`);
-      setOrderDetails(ordersList.response);
-      console.log(ordersList.response);
-    } catch (error) {
-      console.error('Error');
-    } finally {
-      //do nothing
-    }
-  };
+ 
 
   //DELETE PRODUCTS OF THE CART
   const [idToDelete, setIdToDelete] = useState(false);
@@ -141,7 +130,7 @@ function CartOfOrders({changeState, update, orderId, isCartOpen, setIsCartOpen, 
   //USE EFFECTS
   useEffect(()=>{
         getProducts();
-        getOrderDetails();
+       
   }, [update])
 
   useEffect(()=>{

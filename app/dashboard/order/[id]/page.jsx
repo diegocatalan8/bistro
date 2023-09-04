@@ -64,6 +64,19 @@ function PageOrder({params}) {
       }
   };
 
+  const[orderDetails, setOrderDetails] = useState([]);
+  const getOrderDetails = async () => {
+    try {
+      const ordersList = await APIUtility.fetchData(`http://localhost:3000/api/order/${id}`);
+      setOrderDetails(ordersList.response);
+      console.log(ordersList.response);
+    } catch (error) {
+      console.error('Error');
+    } finally {
+      //do nothing
+    }
+  };
+
   //SEARCH BAR
   const [productToFind, setProductToFind] = useState('');
   const handleInputChangeSearch = (e) => {
@@ -119,7 +132,11 @@ function PageOrder({params}) {
      getCategories();
      getProducts();
      getVariations();
-  }, [])
+  }, []);
+
+  useEffect(()=>{
+    getOrderDetails();
+  }, [update]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -129,6 +146,7 @@ function PageOrder({params}) {
 
   return (
     <div className='Container relative z-10  w-full h-full flex flex-row'>
+          
           <section className={`Section px-5 pt-6 h-full w-[90%] ${isCartOpen ? 'md:w-[50%]' : 'md:w-[95%]'}  lg:w-[65%] xl:w-[70%] flex flex-col `}>
               {/**SEARCH BAR */}
               <div className='w-full flex mt-10 xl:mt-3'>
@@ -169,8 +187,12 @@ function PageOrder({params}) {
                     {
                       searcherMotor.map((item)=>(
                         <div key={item.id} onClick={()=>{
+                                      if(orderDetails.state === 'registered' && orderDetails.status === true){
                                       openModal();
                                       setDataModal(item);
+                                      }else{
+                                        console.log('Do nothing');
+                                      }
                                     }} className='cursor-pointer p-4 flex flex-col justify-between items-center rounded-xl mb-4 bg-white h-[260px] w-[90%] md:w-[48%] lg:w-[29%]'>
                              <Image className='rounded-lg h-[60%] w-[90%]' alt='item' src={Logo}/> 
                              <div className='w-[90%] h-[40%] flex flex-col justify-center items-center'>
@@ -184,6 +206,7 @@ function PageOrder({params}) {
 
       
               </div>
+
               <AddProduct
                 isModalOpen={isModalOpen}
                 customCloseModal={closeModal}
@@ -194,7 +217,7 @@ function PageOrder({params}) {
               />
           </section>
 
-          <CartOfOrders changeState={changeState} update={update} orderId={id} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
+          <CartOfOrders orderDetails={orderDetails} changeState={changeState} update={update} orderId={id} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
 
          
 
