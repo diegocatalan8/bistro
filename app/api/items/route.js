@@ -7,7 +7,7 @@ export async function GET(){
   
   try{
 
-    const query = 'select p.id, p.name, p.description, p.image, p.status, p.category_id, c.name as category from tbl_product as p inner join tbl_category as c on p.category_id = c.id where p.status = true';
+    const query = 'select p.id, p.name, p.description, p.image, p.status, p.category_id, c.name as category from tbl_product as p inner join tbl_category as c on p.category_id = c.id where p.status = true and c.status = true';
     const data =  await conn.query(query);
     const response = data.rows;
     

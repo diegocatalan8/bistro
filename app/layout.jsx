@@ -1,3 +1,4 @@
+import { AccountProvider } from '@/context/account/AccountContext';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -9,7 +10,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className='bg-[#e8e8e8]'>
-        {children}
+        <AccountProvider>
+            
+                {children}
+               
+        </AccountProvider>
       </body>
     </html>
   );
