@@ -68,11 +68,11 @@ function CategoryForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
                             name='category'
                             type='text'
                             autoFocus={true}
-                            defaultValue={dataToEdit !== undefined ? dataToEdit.name : ''}
+                            defaultValue={dataToEdit !== undefined ? dataToEdit?.name : ''}
                             placeholder='Ingrese una categoria'
                             {...register('category',{
                               required:true,
-                              pattern: /^[A-Za-z]+$/
+                              pattern: /^[A-Za-z ]+$/
                             })}
                             className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                           />

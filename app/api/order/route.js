@@ -1,12 +1,10 @@
 import { conn } from '@/utils/database';
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server' 
 
 
 export async function GET(){
-  
   try{
-
-    const query = 'select p.id, p.name, p.description, p.image, p.status, p.category_id, c.name as category from tbl_product as p inner join tbl_category as c on p.category_id = c.id where p.status = true and c.status = true';
+    const query = 'SELECT * FROM TBL_ORDER WHERE STATUS = TRUE';
     const data =  await conn.query(query);
     const response = data.rows;
     
@@ -17,24 +15,22 @@ export async function GET(){
     return NextResponse.json({error: error.message });
   }
   }
-  
+
 export async function POST(request) {
   try{
-
-    //Obtenesmos el objeto body de req
-    const body = await request.json();
-    
+     //Obtenesmos el objeto body de req
+    const body = await request.json()
+    console.log(body);
     //Destructuramos el objeto body que seran las propiedades del json de los datos
     //que se mandaron
-    const {name, description, imageName, category, idUser} = body;
-    
+    const {type_order, description, idUser} = body;
     //Creamos una consulta
-    const query = "INSERT INTO TBL_PRODUCT(NAME, DESCRIPTION, IMAGE, CATEGORY_ID, CREATED_BY, MODIFIED_BY) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
+    const query = "INSERT INTO TBL_ORDER (description, type, created_by, modified_by) VALUES($1, $2, $3, $4) RETURNING *";
     //Creamos un array con los valores
-    const values = [name, description, imageName, category, idUser, idUser];
+    const values = [description, type_order, idUser, idUser];
     //Creamos una peticion a la base de datos
     const response =  await conn.query(query, values);
-    //console.log(response);
+    console.log(response);
     return NextResponse.json({response});
     
     }

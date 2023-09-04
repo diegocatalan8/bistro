@@ -6,7 +6,6 @@ import APIUtility from '@/services/ApiUtility';
 
 function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, idUser=1, dataToEdit}) {
 
-    
     const [items, setItems] = useState([]);
 
     const {register, formState:{errors}, reset, handleSubmit} = useForm();
@@ -84,8 +83,6 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
         getItems();
     }, [])
   
-
-
   return (
     <div className='flex flex-col h-full w-full  p-6'>
         <h2 className='text-[22px] font-semibold w-full mb-6'>Variaciones de productos</h2>
@@ -101,7 +98,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
                       
                         id="product"
                         name="product"
-                        defaultValue={dataToEdit.product_id || ''}
+                        defaultValue={dataToEdit?.product_id || ''}
                         {...register('product',{
                           required:true
                         })}

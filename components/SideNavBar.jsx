@@ -1,18 +1,20 @@
 "use client"
 
 import React, {useEffect, useState} from "react";
+import { useRouter } from 'next/navigation';
 import APIUtility from '@/services/ApiUtility';
 import Modal from './Modal';
 import Logo from '@/assets/logo.jpg'
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAccountContext } from '@/context/account/AccountContext';
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from '@headlessui/react';
 import {MdOutlineSettings, MdOutlineLogout} from "react-icons/md";
 import { BiSolidFilePlus, BiListCheck, BiTransferAlt } from 'react-icons/bi';
 import { MdArticle } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
+
 
 
 
@@ -22,6 +24,8 @@ function SideNavbar() {
     const [size, setSize] = useState("static");
     const [verticalActive, setVerticalActive] = useState('/dashboard/order');
 
+    const {setUser} = useAccountContext();
+
     //MODAL
     const modalText ={
       title:'Cerrar Sesion',
@@ -29,10 +33,12 @@ function SideNavbar() {
       buttonConfirmText:'Logout'
     }
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
     const customClickConfirmModal = async ()=>{
              await fetchCookie();
              setIsModalOpen(false);
              router.push('/sesion/login');
+             setUser(null);
     }
     const customClickCancelModal =()=>{
           setIsModalOpen(false);
@@ -81,20 +87,23 @@ function SideNavbar() {
     }, []);
 
    
+   
   
 
   return (
     
       <Disclosure>
 
-        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-0 left-0 md:top-2 md:left-3 z-30 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-[#2E68FF] hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
           <GiHamburgerMenu
-            className="xl:hidden h-6 w-6"
+            className="md:hidden h-6 w-6"
             aria-hidden="true"
           />
         </Disclosure.Button>
 
-        <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[20%]`}>
+        <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[22%]`}>
+    
+        
           <div className="flex flex-col justify-start item-center">
             {/* Logo */}
             <div>
@@ -104,22 +113,14 @@ function SideNavbar() {
             <div className=" my-4 border-b border-gray-100 pb-4">
 
              <Link href='/dashboard/order'>
-             <div onClick={()=>{handleVerticalClick("/dashboard/order")}} className={`${verticalActive === "/dashboard/order" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiSolidFilePlus className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/order" ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/order"  ? "text-white" : ""}`}>
+             <div onClick={()=>{handleVerticalClick("/dashboard/order")}} className={`${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                    <BiSolidFilePlus className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "text-white" : ""}`}>
                     Crear Orden
                     </h3>
                 </div>
              </Link>
 
-              <Link href='/dashboard/orders'>
-              <div onClick={()=>{handleVerticalClick("/dashboard/orders")}} className={`${verticalActive === "/dashboard/orders"  ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiListCheck className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/orders"  ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/orders" ? "text-white" : ""}`}>
-                    Ordenes
-                    </h3>
-                </div>
-              </Link>
 
               <Link href='/dashboard/transactions'>
               <div onClick={()=>{handleVerticalClick("/dashboard/transactions")}} className={`${verticalActive === "/dashboard/transactions" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>

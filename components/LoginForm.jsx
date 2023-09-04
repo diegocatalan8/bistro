@@ -4,6 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 import {useRouter} from 'next/navigation'
+import { useAccountContext } from '@/context/account/AccountContext';
 
 function LoginForm() {
   const {
@@ -14,6 +15,8 @@ function LoginForm() {
   } = useForm();
 
   const router = useRouter();
+  const {setUser} = useAccountContext();
+  
 
   const onSubmit = (data) => {
     console.log(data);
@@ -27,6 +30,8 @@ function LoginForm() {
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
       //localStorage.setItem('id', response.id);
+      setUser(response.id);
+
       router.push(`/dashboard/order`);
     } 
     catch (error) {
