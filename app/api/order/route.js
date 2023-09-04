@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 export async function GET(){
   try{
-    const query = 'SELECT * FROM TBL_ORDER WHERE PAYMENT_STATE = FALSE AND STATUS = TRUE ';
+    const query = 'SELECT * FROM TBL_ORDER WHERE STATUS = TRUE';
     const data =  await conn.query(query);
     const response = data.rows;
     

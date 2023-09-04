@@ -4,11 +4,14 @@ import React, { useState, useEffect } from 'react';
 import APIUtility from '@/services/ApiUtility';
 import Image from 'next/image';
 import Logo from '@/assets/logo.jpg';
+import {useRouter} from 'next/navigation';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from './Modal';
 
 function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, setIsCartOpen, userId = 1}) {
   
+  //ROUTER
+  const router = useRouter();
   //GET DATA
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
@@ -22,8 +25,6 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
       //do nothing
     }
   };
-
- 
 
   //DELETE PRODUCTS OF THE CART
   const [idToDelete, setIdToDelete] = useState(false);
@@ -121,6 +122,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   const customClickConfirmModalCancelOrder = ()=>{
           setIsModalCancelOrderOpen(false);
           deleteOrderUpdate();
+          router.push('/dashboard/order');
   }
   const customClickCancelModalCancelOrder =()=>{
         setIsModalCancelOrderOpen(false);
@@ -241,13 +243,19 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
 
                                 <button
                                 onClick ={()=>{
-                                    setIsModalCancelOrderOpen(true);
-                                    changeState();
+                                    if(orderDetails.status){
+                                        setIsModalCancelOrderOpen(true);
+                                        changeState();
+                                    
+                                    }
+                                    else{
+                                        router.push('/dashboard/order');
+                                    }
                                 }}
                                 type='button'
                                 className='mt-3 w-[49%]  flex h-[46px] md:h-[66px] lg:h-[46px] p-3 md:p-5 lg:p-3 justify-center rounded-md bg-[#FF0000]  text-[18px] md:text-[25px] lg:text-[18px] font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'
                                 >
-                                Cancelar
+                                {orderDetails.status ? 'Cancelar' : 'Regresar'}
                                 </button>
 
                             </div>
