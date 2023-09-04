@@ -149,7 +149,7 @@ function PageOrder({params}) {
           
           <section className={`Section px-5 pt-6 h-full w-[90%] ${isCartOpen ? 'md:w-[50%]' : 'md:w-[95%]'}  lg:w-[65%] xl:w-[70%] flex flex-col `}>
               {/**SEARCH BAR */}
-              <div className='w-full flex mt-10 xl:mt-3'>
+              <div className='w-full flex  mt-10 md:mt-0 xl:mt-3'>
                   <input
                   id='search'
                   name='search'
@@ -167,7 +167,7 @@ function PageOrder({params}) {
                   <button onClick={()=>{
                       handleCategoryClick('Todos');
                       setProductToFind('');
-                  }} className={`rounded-lg w-fit h-[90%] md:min-h-[60%] px-2 mr-3 ${categoryActive === 'Todos' ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
+                  }} className={`rounded-lg w-fit h-[90%] md:min-h-[60%] lg:h-[60%] px-2 mr-3 ${categoryActive === 'Todos' ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
                           Todos
                   </button>
                       {
@@ -175,7 +175,7 @@ function PageOrder({params}) {
                             <button key={category.id} onClick={()=>{
                               handleCategoryClick(category.name);
                               setProductToFind(category.name);
-                            }} className={`rounded-lg w-fit h-[90%] md:min-h-[60%] px-3 mr-3 ${categoryActive === category.name ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
+                            }} className={`rounded-lg w-fit h-[90%] md:min-h-[60%] lg:h-[60%] px-3 mr-3 ${categoryActive === category.name ? 'bg-[#2d69ff] text-white font-semibold shadow-md' : 'bg-white'}`}>
                                     {category.name}
                             </button>
                         ))
