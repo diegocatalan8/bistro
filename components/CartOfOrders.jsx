@@ -47,7 +47,6 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   };
 
   //SEND COMANDA LOGIC
- 
   const sendComandaUpdateOrder = async () => {
     try {
       const obj = {
@@ -68,7 +67,6 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   };
  
   //DELETE ORDER LOGIC
-  
   const deleteOrderUpdate = async () => {
     try {
       const obj = {
@@ -98,13 +96,10 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
     description:'¿Esta seguro que desea continuar?',
     buttonConfirmText:'Eliminar'
   }
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
   const customClickConfirmModal = async ()=>{
            setIsModalOpen(false);
            updateProduct();
-           
   }
   const customClickCancelModal =()=>{
         setIsModalOpen(false);
@@ -221,6 +216,9 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                     <footer className='flex flex-col justify-center items-center h-[30%]'>
                         <div className='flex flex-col justify-center h-full w-[80%]'>
                             <button
+                                onClick={()=>{
+                                    router.push(`/dashboard/order/payment/${orderId}`)
+                                }}
                                 type='button'
                                 disabled={isConfirmButtonDisabled}
                                 className={`${isConfirmButtonDisabled ? 'bg-gray-300 text-white' : 'bg-blue-600 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'} w-[100%] flex  h-[46px] md:h-[66px] lg:h-[46px] p-3 md:p-5 lg:p-3 justify-center rounded-md   text-[18px] md:text-[25px] lg:text-[18px] font-semibold leading-6  `}
