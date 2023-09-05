@@ -7,7 +7,7 @@ import APIUtility from '@/services/ApiUtility';
 
 function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, idUser=1, dataToEdit}) {
     
-
+    console.log(dataToEdit);
     const [categories, setCategories] = useState([]);
     
     const {register, reset, formState:{errors}, handleSubmit, watch} = useForm();
@@ -189,9 +189,9 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                                 <span>Subir imagen</span>
                                 <input 
                                 {...register('image',{
-                                  required:true
+                                  required:imageUrl ? false : true
                                 })}
-                                defaultValue={dataToEdit !== undefined ? dataToEdit.imageName : null}
+                                
                                 type="file" className="sr-only" accept="image/*" name="image"/>
                                 <div>
                                   {imageUrl ? <img className='rounded-md h-[70px]' src={imageUrl} alt="preview" /> : null}
