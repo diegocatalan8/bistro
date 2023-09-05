@@ -1,4 +1,5 @@
 import { conn } from '@/utils/database';
+import { cloudinary } from '@/utils/cloudinary';
 import { NextResponse } from 'next/server';
 
 
@@ -22,11 +23,30 @@ export async function POST(request) {
   try{
 
     //Obtenesmos el objeto body de req
-    const body = await request.json();
+    const body = await request.formData();
+    const image = body.get("imageName");
+
+    //Convert the image to buffer
+    const bytes = await  image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    //Upload the image to cloud
+    const cloudResponse = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({}, (err, result) => {
+          if(err) {reject(err)}
+
+          resolve(result)
+      }).end(buffer);
+  });
+
     
     //Destructuramos el objeto body que seran las propiedades del json de los datos
     //que se mandaron
-    const {name, description, imageName, category, idUser} = body;
+    const name        = body.get("name");
+    const description = body.get("description");
+    const imageName   = cloudResponse.secure_url;
+    const category    = body.get("category");
+    const idUser      = body.get("idUser");
     
     //Creamos una consulta
     const query = "INSERT INTO TBL_PRODUCT(NAME, DESCRIPTION, IMAGE, CATEGORY_ID, CREATED_BY, MODIFIED_BY) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
@@ -34,7 +54,6 @@ export async function POST(request) {
     const values = [name, description, imageName, category, idUser, idUser];
     //Creamos una peticion a la base de datos
     const response =  await conn.query(query, values);
-    //console.log(response);
     return NextResponse.json({response});
     
     }
