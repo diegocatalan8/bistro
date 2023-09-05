@@ -182,8 +182,10 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                 <div key={item.id} className='p-2 flex flex-row justify-between border-b-2 border-solid border-gray-200 w-full h-[33.33%] '>
                                     {/**COLUMN 1 */}
                                         <div className='flex flex-col justify-start w-[25%] '>
+
                                             <div  className='w-full rounded-lg border-solid '>
                                                 <img alt='product' src={item.image} className='w-full h-full rounded-lg'/>
+
                                             </div>
                                         </div>
 

@@ -192,7 +192,9 @@ function PageOrder({params}) {
                                         console.log('Do nothing');
                                       }
                                     }} className='cursor-pointer p-4 flex flex-col justify-between items-center rounded-xl mb-4 bg-white h-[260px] w-[90%] md:w-[48%] lg:w-[29%]'>
+
                              <img className='rounded-lg h-[60%] w-[90%]' alt='item' src={item.image}/> 
+
                              <div className='w-[90%] h-[40%] flex flex-col justify-center items-center'>
                                 <p className='w-full font-semibold text-center text-[22px] md:text-[20px] lg:text-[16px] '>
                                   {item.name}
