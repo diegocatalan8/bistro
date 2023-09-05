@@ -182,14 +182,14 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                           <div className="flex flex-col justify-center items-center">
                           
                             <div className="mt-4 flex text-sm leading-6 text-gray-600">
-
+                            {errors.image?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Imagen Requerida.</p>}
                               <label
                                 className="relative flex items-center flex-col cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                               >
                                 <span>Subir imagen</span>
                                 <input 
                                 {...register('image',{
-                                  required:false
+                                  required:true
                                 })}
                                 defaultValue={dataToEdit !== undefined ? dataToEdit.imageName : null}
                                 type="file" className="sr-only" accept="image/*" name="image"/>
@@ -199,12 +199,13 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                               </label>
                               
                             </div>
-                            
+                              
                           </div>
                         </div>
                     </div>
+                    
                 </div>
-
+                
                 <div className="mt-3">
                     <label className="block text-sm font-medium leading-6 text-gray-900">
                       Seleciona una categoria

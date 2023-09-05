@@ -1,8 +1,6 @@
 'use client'
 import React, {useState, useEffect} from 'react';
 import APIUtility from '@/services/ApiUtility';
-import Image from 'next/image';
-import Logo from '@/assets/logo.jpg'
 import AddProduct from '@/components/AddProduct';
 import CartOfOrders from '@/components/CartOfOrders';
 
@@ -194,7 +192,7 @@ function PageOrder({params}) {
                                         console.log('Do nothing');
                                       }
                                     }} className='cursor-pointer p-4 flex flex-col justify-between items-center rounded-xl mb-4 bg-white h-[260px] w-[90%] md:w-[48%] lg:w-[29%]'>
-                             <Image className='rounded-lg h-[60%] w-[90%]' alt='item' src={Logo}/> 
+                             <img className='rounded-lg h-[60%] w-[90%]' alt='item' src={item.image}/> 
                              <div className='w-[90%] h-[40%] flex flex-col justify-center items-center'>
                                 <p className='w-full font-semibold text-center text-[22px] md:text-[20px] lg:text-[16px] '>
                                   {item.name}

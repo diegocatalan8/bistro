@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 import { Fragment, useRef} from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import Logo from '@/assets/logo.jpg'
-import Image from 'next/image';
+
 
 
 function AddProduct({changeState, isModalOpen, customCloseModal, data, variations, orderId}) {
@@ -115,7 +114,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
                   {/**Column One */}
                   <div className='h-full w-[50%] mr-2'>
                       <div className='h-[50%] rounded-lg w-full '>
-                            <Image className='w-full h-full' src={Logo} alt='Product Image'/>
+                            <img className='w-full h-full rounded-lg' src={data.image} alt='Product Image'/>
                       </div>
                       <div className='h-[50%] w-full flex flex-col '>
                             <h2 className='w-full h-[20%] font-semibold text-[20px]  px-3 '>{data.name}</h2>
