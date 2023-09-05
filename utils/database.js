@@ -6,11 +6,11 @@ let conn;
 if(!conn){
    
     conn = new Pool({
-        user:'postgres',
-        password:'bistro',
-        host:'localhost',
-        port: 5432,
-        database: 'bistro'
+        user:process.env.DB_USER,
+        password:process.env.DB_PASS,
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DB_NAME
     })
 }
 

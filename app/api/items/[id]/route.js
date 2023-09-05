@@ -1,4 +1,5 @@
 import { conn } from '@/utils/database';
+import { cloudinary } from '@/utils/cloudinary';
 import { NextResponse } from 'next/server' 
 
 
@@ -20,19 +21,53 @@ export async function GET(response, request) {
 export async function PUT(response, request) {
   try{
     //Obtenesmos el objeto body de req
-    const body = await response.json()
+    const body = await response.formData();
+    const image = body.get("imageName");
+
+    let imageName;
+    let query;
+    let values;
 
     //Obtnemos el id del objeto a modificar
     const { params } = request;
     const { id } = params;
-    
+
     //Destructuramos el objeto body que seran las propiedades del json de los datos
     //que se mandaron
-    const {name, description, imageName, category, modified_by, active,} = body;
+    const name        = body.get("name");
+    const description = body.get("description");
+    const category    = body.get("category");
+    const modified_by = body.get("modified_by");
+    const active      = body.get("active");
+    
+    // Evaluate if exists image
+    const isImage = image instanceof Blob;
+
+    if(!isImage) {
+      query = "UPDATE TBL_PRODUCT SET name=$1, description=$2, status=$3, category_id=$4, modified_by=$5 WHERE ID = $6";
+      //Creamos un array con los valores
+      values = [name, description, active, category, modified_by, id];
+    }  
+    else if (isImage) {
+
+      const bytes = await  image.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const cloudResponse = await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream({}, (err, result) => {
+              if(err) {reject(err)}
+    
+              resolve(result);
+        }).end(buffer);
+      });
+
+      imageName   = cloudResponse.secure_url;
+
+      query = "UPDATE TBL_PRODUCT SET name=$1, description=$2, image=$3, status=$4, category_id=$5, modified_by=$6 WHERE ID = $7";
+      //Creamos un array con los valores
+      values = [name, description, imageName, active, category, modified_by, id];
+    }
     //Creamos una consulta
-    const query = "UPDATE TBL_PRODUCT SET name=$1, description=$2, image=$3, status=$4, category_id=$5, modified_by=$6 WHERE ID = $7";
-    //Creamos un array con los valores
-    const values = [name, description, imageName, active, category, modified_by, id];
     //Creamos una peticion a la base de datos
     const res =  await conn.query(query, values);
     return NextResponse.json({res});

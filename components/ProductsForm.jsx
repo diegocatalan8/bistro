@@ -10,13 +10,40 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
 
     const [categories, setCategories] = useState([]);
     
-    const {register, reset, formState:{errors}, handleSubmit} = useForm();
+    const {register, reset, formState:{errors}, handleSubmit, watch} = useForm();
+
+    const [imageUrl, setImageUrl] = useState(null);
+
+    const [imageObj, setImageObj] = useState(null);
+
+    const watchFile = watch(["image"]);
+    console.log(watchFile);
+    
+    const previewImage = (file) => {
+      
+      if (file[0] && file[0][0]) {
+
+        const image = file[0][0]
+
+        if ( image == imageObj) {
+          return
+        }
+
+        setImageObj(image)  
+        const url = URL.createObjectURL(image);
+        console.log(url)
+        setImageUrl(url)
+      }
+    }
+
+    previewImage(watchFile);
 
     const  onSubmit = async  (data) =>{ 
       console.log(data);
       if(httpMethod.post){
         //Ejecuta un insert
         create(data);
+        setImageUrl(null);
         reset();
       }
       else if(httpMethod.put){
@@ -29,16 +56,15 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
     const create = async (data) => {
 
       try {
+
+        const structure = new FormData();
+
+        structure.append('name', data.name);
+        structure.append('description', data.description);
+        structure.append('imageName', data.image[0]);
+        structure.append('category', data.category);
+        structure.append('idUser', idUser);
         
-        const structure = {
-
-          name:data.name,
-          description: data.description,
-          imageName:null,
-          category:data.category, 
-          idUser:idUser,
-
-        }
         const url = 'http://localhost:3000/api/items';
         const response = await APIUtility.postData(url, structure);
         console.log('Datos recibidos:', response);
@@ -50,14 +76,15 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
 
     const update = async (obj) => {
       try {
-        const dataUpdate ={
-                name: obj.name, 
-                description: obj.description, 
-                image: null, 
-                category: obj.category, 
-                active: obj.active,
-                modified_by: idUser
-            }
+
+        const dataUpdate = new FormData();
+          
+        dataUpdate.append('name', obj.name);
+        dataUpdate.append('description', obj.description);
+        dataUpdate.append('imageName', obj.image[0]);
+        dataUpdate.append('category', obj.category);
+        dataUpdate.append('active', obj.active);
+        dataUpdate.append('modified_by', idUser);
 
         const url = `http://localhost:3000/api/items/${dataToEdit.id}`;
         const response = await APIUtility.putData(url, dataUpdate);
@@ -84,6 +111,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
 
     useEffect(()=>{
       getCategories();
+      if(dataToEdit) setImageUrl(dataToEdit.image);
     }, [])
   
 
@@ -154,27 +182,30 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                           <div className="flex flex-col justify-center items-center">
                           
                             <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                            {errors.image?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Imagen Requerida.</p>}
                               <label
-                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                className="relative flex items-center flex-col cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                               >
-                                <span>proximamente</span>
+                                <span>Subir imagen</span>
                                 <input 
                                 {...register('image',{
-                                  required:false
+                                  required:true
                                 })}
-                                defaultValue={dataToEdit !== undefined ? dataToEdit.image : null}
-                                disabled={true}
-
-                                type="file" className="sr-only" />
+                                defaultValue={dataToEdit !== undefined ? dataToEdit.imageName : null}
+                                type="file" className="sr-only" accept="image/*" name="image"/>
+                                <div>
+                                  {imageUrl ? <img className='rounded-md h-[70px]' src={imageUrl} alt="preview" /> : null}
+                                </div>
                               </label>
                               
                             </div>
-                            
+                              
                           </div>
                         </div>
                     </div>
+                    
                 </div>
-
+                
                 <div className="mt-3">
                     <label className="block text-sm font-medium leading-6 text-gray-900">
                       Seleciona una categoria

@@ -1,5 +1,25 @@
 class APIUtility {
 
+    static #getRequest(method, data){
+      
+      let requestObject;
+      if(data instanceof FormData){
+        requestObject = {
+          method: method,
+          body: data
+        }
+      } else {
+        requestObject = {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }
+      }
+      return requestObject;
+    }
+
     static async fetchData(url) {
       try {
         //PETICION
@@ -24,16 +44,11 @@ class APIUtility {
     
     }
 
-    static async postData(url, obj) {
+    static async postData(url, requestData) {
       try {
+        const request = this.#getRequest('POST', requestData);
         //PETICION
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        });
+        const response = await fetch(url, request);
         const data = await response.json();
         //VALIDACION
         if (response.ok) {
@@ -54,16 +69,11 @@ class APIUtility {
       }
     }
 
-    static async putData(url, obj) {
+    static async putData(url, requestData) {
       try {
+        const request = this.#getRequest('PUT', requestData);
         //PETICION
-        const response = await fetch(url, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(obj),
-        });
+        const response = await fetch(url, request);
         const data = await response.json();
         //VALIDACIONES
         if (response.status === 200) {
