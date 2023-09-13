@@ -22,7 +22,7 @@ function PageOrder({params}) {
     setCategoryActive(value);
   };
 
-  ///GET DATA
+  //GET DATA
   const [categories, setCategories] = useState([]);
   const getCategories = async () => {
     try {
@@ -35,7 +35,6 @@ function PageOrder({params}) {
     }
   };
 
- 
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
@@ -47,7 +46,6 @@ function PageOrder({params}) {
       //do nothing
     }
   };
-
 
   const [variations, setVariations] = useState([]);
   const getVariations = async () => {
@@ -185,7 +183,7 @@ function PageOrder({params}) {
                     {
                       searcherMotor.map((item)=>(
                         <div key={item.id} onClick={()=>{
-                                      if(orderDetails.state === 'registered' && orderDetails.status === true){
+                                      if(orderDetails.state === 'registered' && orderDetails.status === true && !orderDetails.payment_state){
                                       openModal();
                                       setDataModal(item);
                                       }else{

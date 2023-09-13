@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import APIUtility from '@/services/ApiUtility';
-import Image from 'next/image';
-import Logo from '@/assets/logo.jpg';
 import {useRouter} from 'next/navigation';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from './Modal';
@@ -50,7 +48,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   const sendComandaUpdateOrder = async () => {
     try {
       const obj = {
-        payment_state : false, 
+        payment_state : orderDetails.payment_state, 
         state: 'toaccept', 
         discount_id : null, 
         modified_by: userId, 
@@ -130,7 +128,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   }, [update])
 
   useEffect(()=>{
-        setIsSendComandaDisabled(products.length > 0 && orderDetails.state === 'registered' && orderDetails.status === true  ? false : true);
+        setIsSendComandaDisabled((products.length > 0 && orderDetails.state === 'registered' && orderDetails.status === true)  ? false : true);
         setIsConfirmButtonDisabled(orderDetails.status === false || products.length === 0 ? true : false);
   }, [products, orderDetails.state, orderDetails.status])
 
@@ -198,7 +196,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                         <div className='flex flex-col justify-between p-2 w-[25%] '>
                                                 <p className='w-full text-center font-bold text-[#4D81F1] md:text-[25px] lg:text-[15px]'>${parseFloat(item.subtotal).toFixed(2)}</p>
 
-                                                <div className={`${orderDetails.state === 'toaccept' || orderDetails.status === false ? 'hidden' : ''} w-full flex justify-center items-center`}>
+                                                <div className={`${orderDetails.state === 'toaccept' || orderDetails.status === false || orderDetails.payment_state === true ? 'hidden' : ''} w-full flex justify-center items-center`}>
                                                     <button onClick={()=>{
                                                         setIsModalOpen(true);
                                                         setIdToDelete(item.id)
@@ -223,7 +221,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                 disabled={isConfirmButtonDisabled}
                                 className={`${isConfirmButtonDisabled ? 'bg-gray-300 text-white' : 'bg-blue-600 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'} w-[100%] flex  h-[46px] md:h-[66px] lg:h-[46px] p-3 md:p-5 lg:p-3 justify-center rounded-md   text-[18px] md:text-[25px] lg:text-[18px] font-semibold leading-6  `}
                             >
-                                Cobrar Q{products[0] ? parseFloat(products[0]?.sum_total).toFixed(2) : '0.00'}
+                                {orderDetails.payment_state ? 'Ver pagos' : `Cobrar Q ${products[0] ? parseFloat(products[0]?.sum_total).toFixed(2) : '0.00'}`}
                             </button>
 
                             <div className='flex flex-row justify-between w-full'>
@@ -231,7 +229,6 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                 <button
                                 onClick ={()=>{
                                     sendComandaUpdateOrder();
-                                
                                 }}
                                 type='button'
                                 disabled={isSendComandaDisabled}
@@ -254,7 +251,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                 type='button'
                                 className='mt-3 w-[49%]  flex h-[46px] md:h-[66px] lg:h-[46px] p-3 md:p-5 lg:p-3 justify-center rounded-md bg-[#FF0000]  text-[18px] md:text-[25px] lg:text-[18px] font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'
                                 >
-                                {orderDetails.status ? 'Cancelar' : 'Regresar'}
+                                    {orderDetails.status ? 'Eliminar' : 'Regresar'}
                                 </button>
 
                             </div>

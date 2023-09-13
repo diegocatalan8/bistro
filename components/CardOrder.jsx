@@ -3,10 +3,11 @@ import React from 'react'
 function CardOrder({item, customClick}) {
 
     const originalDate = item.created_at;
+    console.log(originalDate);
     const date = new Date(originalDate);
-
-    const hour = date.getUTCHours();
-    const min = date.getUTCMinutes();
+    
+    const hour = date.getHours();
+    const min = date.getMinutes();
     const period = hour >= 12 ? "pm" : "am";
     const hourFormated = hour > 12 ? hour - 12 : hour;
     const minFormated = min < 10 ? "0" + min : min;
@@ -27,6 +28,7 @@ function CardOrder({item, customClick}) {
 
             <div className='w-full'>
                 <p>{horaFinal}</p>
+                <p>{item.payment_state ? 'Orden Pagada' : 'Pago pendiente'}</p>
             </div>
 
             <div className='w-full'>

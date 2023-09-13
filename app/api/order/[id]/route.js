@@ -6,7 +6,7 @@ export async function GET(response, request) {
   try {
     const { params } = request;
     const { id } = params;
-
+    
     const query = 'SELECT * FROM TBL_ORDER WHERE ID = $1';
     const data = await conn.query(query, [id]); // Debes pasar los parámetros como un array
     const responseData = data.rows[0]; // Cambiado el nombre de la variable para evitar conflicto
