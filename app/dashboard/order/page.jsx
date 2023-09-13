@@ -80,10 +80,6 @@ function Order() {
   return (
     <div className='h-full w-full flex flex-col justify-start items-start md:justify-center md:items-center'>
 
-
-
-
-
         <div className='bg-[#e8e8e8] h-[12%] md:h-[8%] w-full flex flex-col justify-end items-center md:px-6  md:items-start lg:justify-center lg:items-center'>
             
             <Dropdown classProp={"w-[70%] md:w-[80%] lg:hidden"} list={buttonsSelect} customClick ={(item)=>{
@@ -91,7 +87,6 @@ function Order() {
                 setStateToFind(item.state);
             }}/>
 
-            
             <div className='w-full h-[50%] hidden lg:flex lg:flex-row justify-start items-center overflow-y-hidden overflow-x-scroll'>
                           
                           <button className={`ml-3 font-semibold w-fit px-2 py-1 rounded-lg ${selectionActive === 'Todas' ? 'text-white bg-[#2E68FF]' : 'text-black hover:text-white bg-[#D9D9D9] hover:bg-[#2E68FF]'}`} 
@@ -125,12 +120,6 @@ function Order() {
             </div>
             
         </div>
-
-        
-
-
-
-
 
          <div className='max-h-[88%] h-[88%] md:max-h-[92%] md:h-[92%] w-full justify-center md:justify-start items-start flex flex-row  flex-wrap px-6 py-6 md:py-6 overflow-y-scroll'>
         

@@ -101,7 +101,7 @@ function SideNavbar() {
           />
         </Disclosure.Button>
 
-        <div className={`h-screen bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[22%]`}>
+        <div className={`h-screen shadow-lg b-solid border-r border-gray-200 bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[22%]`}>
     
         
           <div className="flex flex-col justify-start item-center">
@@ -110,7 +110,7 @@ function SideNavbar() {
                 <Image className='h-full w-full' alt='Logo' src={Logo}/>
             </div>
             {/* panel */}
-            <div className=" my-4 border-b border-gray-100 pb-4">
+            <div className=" my-4 b-solid border-b border-gray-100 pb-4">
 
              <Link href='/dashboard/order'>
              <div onClick={()=>{handleVerticalClick("/dashboard/order")}} className={`${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>

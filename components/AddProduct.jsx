@@ -17,8 +17,6 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
     const variationsFilter = variations.filter((variation)=>{
             return variation.product_id === data.id
     })
-
-
     const addItem = () =>{
         setQuantityItems(quantityItems+1);
     }
@@ -36,8 +34,9 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
     const {register, formState:{errors}, handleSubmit, reset} = useForm();
 
     const  onSubmit = async (data) =>{
-        console.log(data);
+  
         closeModal();
+        console.log(data);
         create(data);
         resetCounter();
         
@@ -46,7 +45,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
     const create = async (obj) => {
 
       const struct = {
-          quantity: obj.quantity,
+          quantity: quantityItems,
           variationId: obj.variationId,
           note: obj.note,
           orderId: orderId,
@@ -131,10 +130,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
                                     name='quantity'
                                     type='number'
                                     value={quantityItems}
-                                    {...register('quantity',{
-                                      required:true,
-                                      pattern: /^[1-9]\d*$/
-                                    })}
+                                    readOnly={true}
                                     className='mx-3 block w-[40px] text-center rounded-lg  border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500'
                                   />
                                   <button type='button' onClick={addItem} className='text-[20px] font-semibold shadow-md bg-[#2E68FF] text-white   w-[40px] h-[40px] rounded-lg'>+</button>
@@ -148,7 +144,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
                   <div className='h-full w-[50%]'>
                         <div className='flex flex-col w-full h-[50%]'>
                             <h2 className=' w-full h-fit font-semibold text-[18px] py-2 px-2'>Variantes</h2>
-                            <div className='overflow-scroll flex flex-grow flex-col  pl-2'>
+                            <div className='overflow-y-scroll flex flex-grow flex-col  pl-2'>
                                 {
                                   variationsFilter.map((item)=>(
                                     <div key={item.id} className='w-full'>
@@ -170,6 +166,12 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
                                                     className='ml-2 block text-sm font-medium leading-6 text-gray-900'
                                                   >
                                                     {item.name}
+                                                  </label>
+
+                                                  <label
+                                                    className='ml-2 block text-sm font-medium leading-6 text-gray-900'
+                                                  >
+                                                    Q{parseFloat(item.price).toFixed(2)}
                                                   </label>
                                             
                                           </div>
