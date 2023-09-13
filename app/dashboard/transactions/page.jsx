@@ -90,7 +90,7 @@ function Transactions() {
 
   //MODAL FOR REFOUND
   const modalText ={
-    title:`Reembolsar Q ${parseFloat(payments[0]?.sum_payments).toFixed(2)}`,
+    title:`Reembolsar Q ${parseFloat(products[0]?.sum_total).toFixed(2)}`,
     description:'¿Esta seguro que desea reembolsar?',
     buttonConfirmText:'Si, reembolsar'
   }
@@ -127,11 +127,9 @@ function Transactions() {
   };
 
   const searcherMotor = transactions.filter((item) => {
-    
     // This is for search the transaction specific
     let upperCaseOrderId = item.order_id ? item.order_id : "";
     let upperCaseDescription = item.description ? item.description.toUpperCase() : "";
-    let upperCaseMethod = item.state ? item.state.toUpperCase() : "";
     
     //DATE OF THE TRANSACTION
     let originalDate = item.date;
@@ -146,8 +144,7 @@ function Transactions() {
     return (
       (dateToFilter === dateToFind)  && (
       (upperCaseOrderId === parseInt(transactionToFind)) ||
-      (!upperCaseDescription.indexOf(transactionToFind.toUpperCase())) ||
-      (!upperCaseMethod.indexOf(transactionToFind.toUpperCase()))
+      (!upperCaseDescription.indexOf(transactionToFind.toUpperCase())) 
       )
     );
   });
@@ -193,16 +190,16 @@ function Transactions() {
 
               </div>  
 
-              <div className='pt-6  flex flex-col flex-grow overflow-hidden'>
+              <div className='pt-6 flex flex-col flex-grow overflow-hidden'>
                     <div className='border-b-2 border-solid border-[#A8A8A8]  text-center  lg:px-5 font-semibold items-center text-[14px] lg:text-[18px] w-full h-[40px] flex flex-row justify-between'>
-                          <p className='w-[25%] lg:w-[14%]'>Id</p>
-                          <p className='w-[25%] lg:w-[14%]'>Fecha</p>
-                          <p className='w-[25%] lg:w-[14%]'>Descripción</p>
-                          <p className='hidden lg:block w-[25%] lg:w-[14%]'>Monto</p>
-                          <p className='hidden lg:block w-[25%] lg:w-[14%]'>Tipo</p>
-                          <p className='hidden lg:block w-[25%] lg:w-[14%]'>Reembolsar</p>
-                          <p className='w-[25%] lg:w-[14%]'>Detalles</p>
+                          <p className='w-[25%] lg:w-[16.6%]'>Id</p>
+                          <p className='w-[25%] lg:w-[16.6%]'>Fecha</p>
+                          <p className='w-[25%] lg:w-[16.6%]'>Descripción</p>
+                          <p className='hidden lg:block w-[25%] lg:w-[16.6%]'>Tipo</p>
+                          <p className='hidden lg:block w-[25%] lg:w-[16.6%]'>Reembolsar</p>
+                          <p className='w-[25%] lg:w-[16.6%] '>Detalles</p>
                     </div>
+
                     <div className='text-[14px] lg:text-[18px]  w-full h-full flex flex-col  overflow-y-scroll'>
                             {
                               searcherMotor?.map((item) => {
@@ -219,12 +216,12 @@ function Transactions() {
                             
                                 return (
                                   <div key={item.order_id} className='text-center lg:px-5 w-full min-h-[70px] flex flex-row justify-between items-center'>
-                                    <p className='w-[25%] lg:w-[14%]'>#{item.order_id}</p>
-                                    <p className='w-[25%] lg:w-[14%]'>{formattedDate}</p>
-                                    <p className='hidden lg:block w-[25%] lg:w-[14%]'>{item.description}</p>
-                                    <p className='hidden lg:block w-[25%] lg:w-[14%]'>Q {item.total_amount}</p>
-                                    <p className={`hidden lg:block w-[25%] lg:w-[14%] rounded-xl ${item.isrefound === true ? 'text-white bg-red-600 font-semibold' : 'text-white bg-green-600 font-semibold'}`}>{item.isrefound === true ? 'Reembolso' : 'Pago'}</p>
-                                    <p className='w-[25%] lg:w-[14%] flex flex-row justify-center'>
+                                    <p className='w-[25%] lg:w-[16.6%]'>#{item.order_id}</p>
+                                    <p className='w-[25%] lg:w-[16.6%]'>{formattedDate}</p>
+                                    <p className='hidden lg:block w-[25%] lg:w-[16.6%]'>{item.description}</p>
+
+                                    <p className={`hidden lg:block w-[25%] lg:w-[16.6%] rounded-xl ${item.isrefound === true ? 'text-white bg-red-600 font-semibold' : 'text-white bg-green-600 font-semibold'}`}>{item.isrefound === true ? 'Reembolso' : 'Pago'}</p>
+                                    <p className=' w-[25%] lg:w-[16.6%] flex flex-row justify-center'>
                                           <button disabled={item.isrefound} onClick={()=>{
                                             getPayments(item.order_id);
                                             getProducts(item.order_id);
@@ -235,7 +232,7 @@ function Transactions() {
                                                   <BiMoney className=' w-[20px] h-[30px]'/>
                                           </button>
                                     </p>
-                                    <p className='w-[25%] lg:w-[14%] flex flex-row justify-center'>
+                                    <p className=' w-[25%] lg:w-[16.6%] flex flex-row justify-center'>
                                           <button onClick={()=>{
                                               getProducts(item.order_id);
                                               getPayments(item.order_id);
