@@ -112,9 +112,9 @@ function SideNavbar() {
             <div className=" my-4 b-solid border-b border-gray-100 pb-4">
 
              <Link href='/dashboard/order'>
-             <div onClick={()=>{handleVerticalClick("/dashboard/order")}} className={`${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
-                    <BiSolidFilePlus className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "text-white" : ""}`} />
-                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") !== -1) ? "text-white" : ""}`}>
+             <div onClick={()=>{handleVerticalClick("/dashboard/order")}} className={`${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") === -1) ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                    <BiSolidFilePlus className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") === -1) ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/order" || (verticalActive.indexOf("/dashboard/order") === -1) ? "text-white" : ""}`}>
                     Crear Orden
                     </h3>
                 </div>
@@ -181,5 +181,3 @@ function SideNavbar() {
 }
 
 export default SideNavbar;
-
-{/**-left-96 md:-left-[600px] lg:left-0  peer-focus:left-0 peer:transition ease-out delay-150 duration-200*/}

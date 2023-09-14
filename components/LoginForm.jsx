@@ -32,7 +32,7 @@ function LoginForm() {
       //localStorage.setItem('id', response.id);
       setUser(response.id);
 
-      router.push(`/dashboard/order`);
+      router.push(`/dashboard`);
     } 
     catch (error) {
       console.error('Error en la petición:', error.message);

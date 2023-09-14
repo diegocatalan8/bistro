@@ -83,11 +83,10 @@ function Order() {
   
 
   const buttonsSelect = [
-    {id: 1, name: 'Todas', state: ''},
-    {id: 2, name: 'Registrada', state: 'registered'},
-    {id: 3, name: 'Por Aceptar', state: 'toaccept'},
-    {id: 4, name: 'En Proceso', state: 'inprocess'},
-    {id: 5, name: 'Completadas', state: 'completed'}
+    {id: 1, name: 'Registradas', state: 'registered'},
+    {id: 2, name: 'Por Aceptar', state: 'toaccept'},
+    {id: 3, name: 'En Proceso', state: 'inprocess'},
+    {id: 4, name: 'Completadas', state: 'completed'}
   ]
   
   return (

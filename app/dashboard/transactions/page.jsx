@@ -5,6 +5,7 @@ import { BiReceipt } from 'react-icons/bi';
 import { BiMoney } from 'react-icons/bi';
 import ModalTransaction from '@/components/ModalTransaction';
 import Modal from '@/components/Modal';
+import LoadingPage from '@/components/LoadingPage';
 
 function Transactions() {
   //CHANGE THE STATE OF THE COMPONENT
@@ -149,15 +150,23 @@ function Transactions() {
     );
   });
   
+  //LOADING VALIDATION
+  const [loading, setLoading] = useState(true);
 
 
   //USE EFFECT
   useEffect(()=>{
     getTransactions();
+    setTimeout(()=>{
+      setLoading(false);
+    }, 500)
   }, [update]);
 
 
-  return (
+  return loading ? (
+    <LoadingPage/>
+  ) 
+  :(
     <div className='p-4 h-screen w-full flex flex-col'>
         <div className='flex flex-col bg-white h-full w-full rounded-xl p-6'>
 

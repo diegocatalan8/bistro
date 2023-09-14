@@ -4,6 +4,7 @@ import APIUtility from '@/services/ApiUtility';
 import CartOfPayments from '@/components/CartOfPayments';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import LoadingPage from '@/components/LoadingPage';
 
 
 function PaymentOrder({params, idUser=1}) {
@@ -16,6 +17,9 @@ function PaymentOrder({params, idUser=1}) {
 
   //GET ID
   const {id} = params;
+
+  //LOADING VALIDATION
+  const [loading, setLoading] = useState(true);
 
   //CREATE PAYMENT
   const createPayment = async (obj) => {
@@ -102,6 +106,9 @@ function PaymentOrder({params, idUser=1}) {
   useEffect(()=>{
      getPayments();
      getOrderDetails();
+     setTimeout(() => {
+        setLoading(false)
+     }, 500);
   }, [update]);
 
   useEffect(()=>{
@@ -113,7 +120,9 @@ function PaymentOrder({params, idUser=1}) {
   }, []);
 
   
-  return (
+  return loading ? (
+      <LoadingPage/>
+    ) : (
     <div className='Container relative z-10  w-full h-full flex flex-row'>
           
           <section className={`Section pl-10 md:px-5  px-5  pt-12 md:pt-6 h-full w-[90%] ${isCartOpen ? 'md:w-[50%]' : 'md:w-[95%]'}  lg:w-[65%] xl:w-[70%] flex flex-col `}>
@@ -222,7 +231,8 @@ function PaymentOrder({params, idUser=1}) {
          <CartOfPayments totalToPay={totalToPay} orderId={id} orderDetails={orderDetails} changeState={changeState} update={update} debt={debt}  isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
 
     </div>
-  )
+    )  
+  
 }
 
 export default PaymentOrder
