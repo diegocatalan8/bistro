@@ -26,7 +26,7 @@ function LoginForm() {
 
   const createSesion = async (obj) => {
     try {
-      const url = 'http://localhost:3000/api/login';
+      const url = '/api/login';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
       //localStorage.setItem('id', response.id);
@@ -55,7 +55,7 @@ function LoginForm() {
             name='user'
             type='email'
             placeholder='Ingrese su nombre de usuario'
-            className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+            className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm   placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
           />
         </div>
         {errors.user?.type === 'required' && (
@@ -88,7 +88,7 @@ function LoginForm() {
             name='password'
             type='password'
             placeholder='Ingrese su contraseña'
-            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
           />
         </div>
         {errors.password?.type === 'required' && (

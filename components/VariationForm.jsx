@@ -102,7 +102,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
                         {...register('product',{
                           required:true
                         })}
-                        className="pl-3 block w-full h-[40px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                        className="pl-2 block w-full h-[40px] rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600"
                     >
                         {httpMethod.put && <option value={dataToEdit.product_id} disabled>{dataToEdit.product_name+" "+"(Valor actual)"} </option>}
                         {httpMethod.post && <option value='' disabled>Seleccione una opcion...</option>}
@@ -133,7 +133,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
                             {...register('name',{
                               required:true
                             })}
-                            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                           />
                         </div>
                         {errors.name?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Ingrese el nombre de la variante del producto.</p>}
@@ -158,7 +158,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
                             {...register('price',{
                               required:true
                             })}
-                            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                           />
                         </div>
                         {errors.price?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Ingrese el precio de la variante del producto.</p>}
@@ -183,7 +183,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
                             {...register('description',{
                               required:true
                             })}
-                            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                           />
                         </div>
                         {errors.description?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Ingrese una descripción.</p>}

@@ -124,7 +124,12 @@ function PaymentOrder({params, idUser=1}) {
                           <p className='text-red-500 text-[35px] font-semibold'>CAMBIO Q{-debt}</p>
                           <button
                                       onClick={()=>{
-                                        router.push(`/dashboard/order/${id}`)
+                                        if(orderDetails.state === 'committed'){
+                                          router.push(`/dashboard/order`)
+                                        }else{
+                                          router.push(`/dashboard/order/${id}`)
+                                        }
+                                        
                                       }}
                                       type='button'
                                       className='mt-6 w-[48%]  flex  h-[46px] p-3  justify-center rounded-md  border-2 border-solid border-red-600  text-[18px] font-semibold leading-6 text-white shadow-sm hover:bg-red-600 bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'
@@ -155,7 +160,7 @@ function PaymentOrder({params, idUser=1}) {
                                                           type="text"
                                                           name="amount"
                                                           id="amount"
-                                                          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                          className="block w-full rounded-md border border-solid border-gray-400 py-1.5 pl-7 pr-20 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                           placeholder="0.00"
                                                           {...register('amount',{
                                                             required:true,

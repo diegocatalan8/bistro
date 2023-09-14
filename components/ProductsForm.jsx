@@ -130,7 +130,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                           
                             className='block text-sm font-medium leading-6 text-gray-900'
                           >
-                            Name
+                            Nombre
                           </label>
                           <div className='mt-2'>
                             <input
@@ -143,7 +143,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                               placeholder='Hamburguesa'
                               autoFocus={true}
                               defaultValue={dataToEdit !== undefined ? dataToEdit.name : ''}
-                              className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                              className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                             />
                           </div>
                           {errors.name?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Ingrese el nombre del producto.</p>}
@@ -154,7 +154,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                           
                             className='block text-sm font-medium leading-6 text-gray-900'
                           >
-                            Description
+                            Descripción
                           </label>
                           <div className='mt-2'>
                             <input
@@ -166,7 +166,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                               placeholder='Deliciosa hamburguesa casera.'
                               type='text'
                               defaultValue={dataToEdit !== undefined ? dataToEdit.description : ''}
-                              className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                              className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                             />
                           </div>
                           {errors.description?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Ingrese una descripcion del producto.</p>}
@@ -178,7 +178,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                           Imagen
                         </label>
                         
-                        <div className="mt-2 h-[120px] flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-10">
+                        <div className="mt-2 h-[120px] flex justify-center rounded-lg border border-dashed border-black px-3 py-10">
                           <div className="flex flex-col justify-center items-center">
                           
                             <div className="mt-4 flex text-sm leading-6 text-gray-600">
@@ -219,7 +219,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
                         id="category"
                         name="category"
                         defaultValue={dataToEdit?.category_id || ''}
-                        className="pl-2 block w-full h-[40px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                        className="pl-2 block w-full h-[40px] rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600"
                       >
                         {httpMethod.put && <option value={dataToEdit.category_id} disabled>{dataToEdit.category+" "+"(Valor actual)"} </option>}
                         {httpMethod.post && <option value='' disabled>Seleccione una opcion...</option>}

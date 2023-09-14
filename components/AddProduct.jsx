@@ -131,7 +131,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
                                     type='number'
                                     value={quantityItems}
                                     readOnly={true}
-                                    className='mx-3 block w-[40px] text-center rounded-lg  border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500'
+                                    className='mx-3 block w-[40px] text-center rounded-lg  border border-solid border-black py-2 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500'
                                   />
                                   <button type='button' onClick={addItem} className='text-[20px] font-semibold shadow-md bg-[#2E68FF] text-white   w-[40px] h-[40px] rounded-lg'>+</button>
 
@@ -203,7 +203,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
                                   {...register('note',{
                                     required:false,
                                   })}
-                                  className='pl-3 h-[46px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                                  className='pl-2 h-[46px] block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                                 />
                               
                               </div>

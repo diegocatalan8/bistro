@@ -30,7 +30,7 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
     try {
       const obj = {
         payment_state : true, 
-        state: orderDetails.state,
+        state: orderDetails.state === 'completed' ? 'committed' : orderDetails.state,
         discount_id : orderDetails.discount_id, 
         modified_by: userId, 
         status: orderDetails.status

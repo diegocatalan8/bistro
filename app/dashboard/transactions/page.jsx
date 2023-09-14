@@ -172,14 +172,14 @@ function Transactions() {
                         value={transactionToFind}
                         onChange={handleInputChangeSearch}
                         autoFocus={true}
-                        className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                        className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                         />
                     </div>
 
                     <input 
                         type="date" 
                         id="start" 
-                        className='ml-2 lg:ml-0 text-center w-fit font-semibold h-full px-3 block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                        className='ml-2 lg:ml-0 text-center w-fit font-semibold h-full px-3 block  rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                         name="trip-start" 
                         value={dateToFind}
                         onChange={(e)=>{

@@ -196,7 +196,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                         <div className='flex flex-col justify-between p-2 w-[25%] '>
                                                 <p className='w-full text-center font-bold text-[#4D81F1] md:text-[25px] lg:text-[15px]'>${parseFloat(item.subtotal).toFixed(2)}</p>
 
-                                                <div className={`${orderDetails.state === 'toaccept' || orderDetails.status === false || orderDetails.payment_state === true ? 'hidden' : ''} w-full flex justify-center items-center`}>
+                                                <div className={`${orderDetails.state !== 'registered' || orderDetails.status === false || orderDetails.payment_state === true ? 'hidden' : ''} w-full flex justify-center items-center`}>
                                                     <button onClick={()=>{
                                                         setIsModalOpen(true);
                                                         setIdToDelete(item.id)
