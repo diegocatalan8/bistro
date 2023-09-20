@@ -59,7 +59,7 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
   //FETCH
   const getData = async () => {
     try {
-      const response = await APIUtility.fetchData(`http://localhost:3000/api/${getItems}`);
+      const response = await APIUtility.fetchData(`/api/${getItems}`);
       setData(response.response);
       console.log(response.response);
     } catch (error) {
@@ -76,7 +76,7 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
                 active:false,
           }
 
-      const url = `http://localhost:3000/api/${getItems}/desactivate/${dataToEdit.id}`;
+      const url = `/api/${getItems}/desactivate/${dataToEdit.id}`;
       const response = await APIUtility.putData(url, dataDesactivate);
       console.log('Datos actualizados:', response);
       

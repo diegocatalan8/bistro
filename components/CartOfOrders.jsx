@@ -14,7 +14,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
-      const productsList = await APIUtility.fetchData(`http://localhost:3000/api/cart/${orderId}`);
+      const productsList = await APIUtility.fetchData(`/api/cart/${orderId}`);
       setProducts(productsList.response);
       console.log(productsList.response);
     } catch (error) {
@@ -33,7 +33,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         idItem: idToDelete,
         active: false,
       }
-      const url = `http://localhost:3000/api/cart/${orderId}`;
+      const url = `/api/cart/${orderId}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
@@ -54,7 +54,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         modified_by: userId, 
         status: true
     }
-      const url = `http://localhost:3000/api/order/${orderId}`;
+      const url = `/api/order/${orderId}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
@@ -74,7 +74,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         modified_by: userId, 
         status: false
     }
-      const url = `http://localhost:3000/api/order/${orderId}`;
+      const url = `/api/order/${orderId}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();

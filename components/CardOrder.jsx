@@ -38,7 +38,7 @@ function CardOrder({item, customClick, userId = 1, changeComponent}) {
           modified_by: userId, 
           status: item.status
       }
-        const url = `http://localhost:3000/api/order/${item.id}`;
+        const url = `/api/order/${item.id}`;
         const response = await APIUtility.putData(url, obj);
         console.log('Datos actualizados:', response);
         

@@ -65,7 +65,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
         structure.append('category', data.category);
         structure.append('idUser', idUser);
         
-        const url = 'http://localhost:3000/api/items';
+        const url = '/api/items';
         const response = await APIUtility.postData(url, structure);
         console.log('Datos recibidos:', response);
       } 
@@ -86,7 +86,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
         dataUpdate.append('active', obj.active);
         dataUpdate.append('modified_by', idUser);
 
-        const url = `http://localhost:3000/api/items/${dataToEdit.id}`;
+        const url = `/api/items/${dataToEdit.id}`;
         const response = await APIUtility.putData(url, dataUpdate);
         console.log('Datos actualizados:', response);
         
@@ -98,7 +98,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
 
     const getCategories = async () => {
       try {
-        const categories = await APIUtility.fetchData(`http://localhost:3000/api/category`);
+        const categories = await APIUtility.fetchData(`/api/category`);
         setCategories(categories.response);
       } catch (error) {
         console.error('Error');

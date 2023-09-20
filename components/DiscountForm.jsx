@@ -28,7 +28,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
   const create = async (obj) => {
     console.log('Entro');
     try {
-      const url = 'http://localhost:3000/api/discounts';
+      const url = '/api/discounts';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
     } 
@@ -39,7 +39,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
 
   const update = async (obj) => {
     try {
-      const url = `http://localhost:3000/api/discounts/${dataToEdit.id}`;
+      const url = `/api/discounts/${dataToEdit.id}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       

@@ -64,7 +64,7 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
   const [payments, setPayments] = useState([]);
   const getPayments = async () => {
     try {
-      const paymentsList = await APIUtility.fetchData(`http://localhost:3000/api/payments/${orderId}`);
+      const paymentsList = await APIUtility.fetchData(`/api/payments/${orderId}`);
       setPayments(paymentsList.response);
       console.log(paymentsList);
     } catch (error) {

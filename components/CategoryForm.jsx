@@ -25,7 +25,7 @@ function CategoryForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
     const create = async (obj) => {
       console.log('Entro');
       try {
-        const url = 'http://localhost:3000/api/category';
+        const url = '/api/category';
         const response = await APIUtility.postData(url, obj);
         console.log('Datos recibidos:', response);
       } 
@@ -37,7 +37,7 @@ function CategoryForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
     const update = async (obj) => {
       try {
       
-        const url = `http://localhost:3000/api/category/${dataToEdit.id}`;
+        const url = `/api/category/${dataToEdit.id}`;
         const response = await APIUtility.putData(url, obj);
         console.log('Datos actualizados:', response);
         

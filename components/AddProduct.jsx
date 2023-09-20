@@ -51,7 +51,7 @@ function AddProduct({changeState, isModalOpen, customCloseModal, data, variation
           orderId: orderId,
       }
       try {
-        const url = 'http://localhost:3000/api/cart';
+        const url = '/api/cart';
         const response = await APIUtility.postData(url, struct);
         console.log('Datos recibidos:', response);
         changeState();

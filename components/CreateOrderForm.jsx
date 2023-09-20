@@ -28,7 +28,7 @@ function CreateOrderForm({isModalOpen, closeModal, idUser=1}) {
         idUser:idUser
       }
       console.log(data);
-      const url = 'http://localhost:3000/api/order';
+      const url = '/api/order';
       const response = await APIUtility.postData(url, data);
       console.log('Datos recibidos:', response);
       router.push(`/dashboard/order/${response.response.rows[0].id}`);

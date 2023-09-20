@@ -18,7 +18,7 @@ function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const getTransactions = async () => {
     try {
-      const transactionsList = await APIUtility.fetchData(`http://localhost:3000/api/payments`);
+      const transactionsList = await APIUtility.fetchData(`/api/payments`);
       setTransactions(transactionsList.response);
       console.log(transactionsList.response);
     } catch (error) {
@@ -31,7 +31,7 @@ function Transactions() {
   const [products, setProducts] = useState([]);
   const getProducts = async (orderId) => {
     try {
-      const productsList = await APIUtility.fetchData(`http://localhost:3000/api/cart/${orderId}`);
+      const productsList = await APIUtility.fetchData(`/api/cart/${orderId}`);
       setProducts(productsList.response);
       console.log(productsList.response);
     } catch (error) {
@@ -44,7 +44,7 @@ function Transactions() {
   const [payments, setPayments] = useState([]);
   const getPayments = async (orderId) => {
     try {
-      const paymentsList = await APIUtility.fetchData(`http://localhost:3000/api/payments/${orderId}`);
+      const paymentsList = await APIUtility.fetchData(`/api/payments/${orderId}`);
       setPayments(paymentsList.response);
       console.log(paymentsList);
     } catch (error) {
@@ -57,7 +57,7 @@ function Transactions() {
   const[orderDetails, setOrderDetails] = useState([]);
   const getOrderDetails = async (orderId) => {
     try {
-      const ordersList = await APIUtility.fetchData(`http://localhost:3000/api/order/${orderId}`);
+      const ordersList = await APIUtility.fetchData(`/api/order/${orderId}`);
       setOrderDetails(ordersList.response);
       console.log(ordersList.response);
     } catch (error) {
@@ -73,7 +73,7 @@ function Transactions() {
       const obj = {
         isRefound: true
       }
-      const url = `http://localhost:3000/api/payments/refound/${products[0]?.order_id}`;
+      const url = `/api/payments/refound/${products[0]?.order_id}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);  
       changeState();

@@ -29,7 +29,7 @@ function PageOrder({ params }) {
   const getCategories = async () => {
     try {
       const categoriesList = await APIUtility.fetchData(
-        `http://localhost:3000/api/category`
+        `/api/category`
       );
       setCategories(categoriesList.response);
     } catch (error) {
@@ -43,7 +43,7 @@ function PageOrder({ params }) {
   const getProducts = async () => {
     try {
       const productsList = await APIUtility.fetchData(
-        `http://localhost:3000/api/items`
+        `/api/items`
       );
       setProducts(productsList.response);
     } catch (error) {
@@ -57,7 +57,7 @@ function PageOrder({ params }) {
   const getVariations = async () => {
     try {
       const varitionsList = await APIUtility.fetchData(
-        `http://localhost:3000/api/variation`
+        `/api/variation`
       );
       setVariations(varitionsList.response);
     } catch (error) {
@@ -71,7 +71,7 @@ function PageOrder({ params }) {
   const getOrderDetails = async () => {
     try {
       const ordersList = await APIUtility.fetchData(
-        `http://localhost:3000/api/order/${id}`
+        `/api/order/${id}`
       );
       setOrderDetails(ordersList.response);
       console.log(ordersList.response);
@@ -140,7 +140,7 @@ function PageOrder({ params }) {
 
     setTimeout(()=>{
       setLoading(false);
-    }, 500)
+    }, 1000)
   }, []);
 
   useEffect(() => {

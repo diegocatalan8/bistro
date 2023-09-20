@@ -30,7 +30,7 @@ function PaymentOrder({params, idUser=1}) {
       idOrder: id
     }
     try {
-      const url = 'http://localhost:3000/api/payments';
+      const url = '/api/payments';
       const response = await APIUtility.postData(url, structure);
       console.log('Datos recibidos:', response);
       changeState();
@@ -53,7 +53,7 @@ function PaymentOrder({params, idUser=1}) {
   const [payments, setPayments] = useState([]);
   const getPayments = async () => {
     try {
-      const paymentsList = await APIUtility.fetchData(`http://localhost:3000/api/payments/${id}`);
+      const paymentsList = await APIUtility.fetchData(`/api/payments/${id}`);
       setPayments(paymentsList.response);
       console.log(paymentsList.response);
     } catch (error) {
@@ -66,7 +66,7 @@ function PaymentOrder({params, idUser=1}) {
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
-      const productsList = await APIUtility.fetchData(`http://localhost:3000/api/cart/${id}`);
+      const productsList = await APIUtility.fetchData(`/api/cart/${id}`);
       setProducts(productsList.response);
       console.log(productsList.response);
     } catch (error) {
@@ -79,7 +79,7 @@ function PaymentOrder({params, idUser=1}) {
   const[orderDetails, setOrderDetails] = useState([]);
   const getOrderDetails = async () => {
     try {
-      const ordersList = await APIUtility.fetchData(`http://localhost:3000/api/order/${id}`);
+      const ordersList = await APIUtility.fetchData(`/api/order/${id}`);
       setOrderDetails(ordersList.response);
       console.log(ordersList.response);
     } catch (error) {

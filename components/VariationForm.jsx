@@ -38,7 +38,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
           idUser:idUser,
 
         }
-        const url = 'http://localhost:3000/api/variation';
+        const url = '/api/variation';
         const response = await APIUtility.postData(url, structure);
         console.log('Datos recibidos:', response);
       } 
@@ -57,7 +57,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
           active:obj.active,
           idUser:idUser, 
         }
-        const url = `http://localhost:3000/api/variation/${dataToEdit.id}`;
+        const url = `/api/variation/${dataToEdit.id}`;
         const response = await APIUtility.putData(url, data);
         console.log('Datos actualizados:', response);
        
@@ -69,7 +69,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
 
     const getItems = async () => {
       try {
-        const listOfItems = await APIUtility.fetchData(`http://localhost:3000/api/items`);
+        const listOfItems = await APIUtility.fetchData(`/api/items`);
         setItems(listOfItems.response);
         console.log(listOfItems);
       } catch (error) {
