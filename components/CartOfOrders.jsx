@@ -6,10 +6,25 @@ import {useRouter} from 'next/navigation';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from './Modal';
 
-function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, setIsCartOpen, userId = 1}) {
+function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, setIsCartOpen}) {
   
   //ROUTER
   const router = useRouter();
+
+  //GET COOCKIES 
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
+
   //GET DATA
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
@@ -51,7 +66,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         payment_state : orderDetails.payment_state, 
         state: 'toaccept', 
         discount_id : null, 
-        modified_by: userId, 
+        modified_by: idUser, 
         status: true
     }
       const url = `/api/order/${orderId}`;
@@ -71,7 +86,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         payment_state : orderDetails.payment_state, 
         state: orderDetails.state, 
         discount_id : orderDetails.discount_id, 
-        modified_by: userId, 
+        modified_by: idUser, 
         status: false
     }
       const url = `/api/order/${orderId}`;
@@ -130,7 +145,11 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   useEffect(()=>{
         setIsSendComandaDisabled((products.length > 0 && orderDetails.state === 'registered' && orderDetails.status === true)  ? false : true);
         setIsConfirmButtonDisabled(orderDetails.status === false || products.length === 0 ? true : false);
-  }, [products, orderDetails.state, orderDetails.status])
+  }, [products, orderDetails.state, orderDetails.status]);
+
+  useEffect(()=>{
+    fetchCookie();
+  }, [])
 
   
 

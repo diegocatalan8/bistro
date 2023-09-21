@@ -29,8 +29,6 @@ export async function validation(email, password) {
 }
 
 export  async function  POST(request){
-    
-    
     //obtenemos de request.body el email y el password enviado
     const body = await request.json()
     //destructuramos body
@@ -40,7 +38,6 @@ export  async function  POST(request){
     const isValidUser = await validation(user, password);
 
     if (isValidUser.validation) {
-    
         //creamos un token con el metodo sign\
         //Variable con el que se crea el token
         const token = jwt.sign({
@@ -49,7 +46,7 @@ export  async function  POST(request){
            user: user,
            password:password,
 
-       }, 'secret');
+        }, 'secret');
 
 
        //Seteamos la cookie
@@ -61,13 +58,12 @@ export  async function  POST(request){
         maxAge: 1000 * 60 * 60 * 24 * 30,
         path:'/',
 
-    })
+       })
       
        //creamos un header y lo enviamos con la cookie
        return NextResponse.json({
-        message:'Succesfully',
-        id:isValidUser.id
-    });
+        message:'Succesfully'
+       });
     }  
 
     return NextResponse.json({ status: 401, body: { error: 'Invalid email or password' } });

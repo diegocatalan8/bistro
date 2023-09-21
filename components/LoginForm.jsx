@@ -1,10 +1,9 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 import {useRouter} from 'next/navigation'
-import { useAccountContext } from '@/context/account/AccountContext';
 
 function LoginForm() {
   const {
@@ -15,13 +14,12 @@ function LoginForm() {
   } = useForm();
 
   const router = useRouter();
-  const {setUser} = useAccountContext();
+
+  const [alertMessage, setAlertMessage] = useState(false);
   
 
   const onSubmit = (data) => {
-    console.log(data);
-    createSesion(data);
-    
+    createSesion(data);    
   };
 
   const createSesion = async (obj) => {
@@ -29,10 +27,13 @@ function LoginForm() {
       const url = '/api/login';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
-      //localStorage.setItem('id', response.id);
-      setUser(response.id);
-
-      router.push(`/dashboard`);
+      if(response.status === 404 || response.status === 401){
+        setAlertMessage(true);
+        reset();
+      }else{
+        router.push(`/dashboard`);
+      }
+      
     } 
     catch (error) {
       console.error('Error en la petición:', error.message);
@@ -42,6 +43,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='w-full '>
 
+      <p className={`text-red-500 text-center mb-2 ${alertMessage ? '' : 'hidden'}`}>El correo electronico o la contraseña es incorrecta.</p>
       <div>
         <label className='block text-sm font-medium leading-6 text-gray-900'>
          Correo Electronico

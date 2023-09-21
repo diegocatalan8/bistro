@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 
 
-function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, idUser=1, dataToEdit}) {
+function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, dataToEdit}) {
     
     console.log(dataToEdit);
     const [categories, setCategories] = useState([]);
@@ -37,6 +37,19 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
     }
 
     previewImage(watchFile);
+
+    const [idUser, setIdUser] = useState(null);
+    const fetchCookie = async (obj = {}) => {
+      try {
+        const url = '/api/userloged';
+        const response = await APIUtility.postData(url, obj);
+        console.log('Datos recibidos:', response);
+        setIdUser(response.response.id);
+      } 
+      catch (error) {
+        console.error('Error en la petición:', error.message);
+      }
+    };
 
     const  onSubmit = async  (data) =>{ 
       console.log(data);
@@ -111,6 +124,7 @@ function ProductsForm({httpMethod ={post:true, put:false}, routeName, pushTo, id
 
     useEffect(()=>{
       getCategories();
+      fetchCookie();
       if(dataToEdit) setImageUrl(dataToEdit.image);
     }, [])
   

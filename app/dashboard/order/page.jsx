@@ -70,6 +70,7 @@ function Order() {
     );
   });
 
+
   //USE EFFECT
   useEffect(()=>{
     getOrders();
@@ -143,7 +144,9 @@ function Order() {
 
               {
                 searcherMotor.map((item)=>(
-                      <CardOrder changeComponent={changeComponent} customClick={()=>{onClickOrder(item.id)}} key={item.id} item={item}/>
+                      <CardOrder changeComponent={changeComponent} customClick={()=>{
+                        onClickOrder(item.id);
+                      }} key={item.id} item={item}/>
                 ))
               }
 

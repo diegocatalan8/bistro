@@ -1,10 +1,10 @@
 'use client'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useRouter } from 'next/navigation';
 import APIUtility from '@/services/ApiUtility';
 import Modal from './Modal';
 
-function CardOrder({item, customClick, userId = 1, changeComponent}) {
+function CardOrder({item, customClick, changeComponent}) {
    
     const originalDate = item.created_at;
     const date = new Date(originalDate);
@@ -28,6 +28,19 @@ function CardOrder({item, customClick, userId = 1, changeComponent}) {
         }
     }
 
+    //GET COOCKIES 
+    const [idUser, setIdUser] = useState(null);
+    const fetchCookie = async (obj = {}) => {
+          try {
+            const url = '/api/userloged';
+            const response = await APIUtility.postData(url, obj);
+            console.log('Datos recibidos:', response);
+            setIdUser(response.response.id);
+          } 
+          catch (error) {
+            console.error('Error en la petición:', error.message);
+          }
+    };
     //UPDATE STATE OF ORDERS
     const updateStateOfOrder = async () => {
       try {
@@ -35,7 +48,7 @@ function CardOrder({item, customClick, userId = 1, changeComponent}) {
           payment_state : item.payment_state, 
           state: 'committed', 
           discount_id : null, 
-          modified_by: userId, 
+          modified_by: idUser, 
           status: item.status
       }
         const url = `/api/order/${item.id}`;
@@ -63,6 +76,10 @@ function CardOrder({item, customClick, userId = 1, changeComponent}) {
           setIsModalOpen(false);
     }
 
+    useEffect(() => {
+      fetchCookie();
+    }, [])
+    
 
   return (
     <div  className={`md:mr-5 lg:mb-5 cursor-pointer p-6 mt-5 md:mt-5 lg:mt-0  shadow-sm flex flex-col text-center justify-between items-center bg-white w-[60%] md:w-[45%] lg:w-[30%] xl:w-[18%] h-[30%] lg:h-[35%] rounded-xl hover:border-2 hover:border-solid hover:border-blue-500 hover:shasdow-lg`}>

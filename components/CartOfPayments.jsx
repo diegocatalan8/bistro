@@ -3,7 +3,22 @@ import Modal from './Modal';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import APIUtility from '@/services/ApiUtility';
 
-function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update, debt, isCartOpen, setIsCartOpen, userId = 1}) {
+function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update, debt, isCartOpen, setIsCartOpen}) {
+
+  //COOKIE ID USER
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
+
 
   //DELETE PAYMENT OF THE CART
   const [idToDelete, setIdToDelete] = useState(false);
@@ -12,7 +27,7 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
       const obj = {
         idItem: idToDelete,
         active: false,
-        userId: userId
+        userId: idUser
       }
       const url = `http://localhost:3000/api/payments/${orderDetails.id}`;
       const response = await APIUtility.putData(url, obj);
@@ -32,7 +47,7 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
         payment_state : true, 
         state: orderDetails.state === 'completed' ? 'committed' : orderDetails.state,
         discount_id : orderDetails.discount_id, 
-        modified_by: userId, 
+        modified_by: idUser, 
         status: orderDetails.status
       }
       const url = `http://localhost:3000/api/order/${orderDetails.id}`;
@@ -74,10 +89,16 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
     }
   };
 
+  
+
   //USE EFFECT
     useEffect(()=>{
       getPayments();
-    }, [update])
+    }, [update]);
+
+    useEffect(()=>{
+      fetchCookie();
+    }, []);
 
   return (
     <aside className={`Aside bg-white h-full flex flex-row  ${isCartOpen ? 'w-full absolute z-20 lg:static lg:z-0  lg:w-[35%] xl:w-[30%]' : 'w-[10%] md:w-[5%] lg:static lg:z-0 lg:w-[35%] xl:w-[30%]'}`}>

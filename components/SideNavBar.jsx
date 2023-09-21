@@ -40,10 +40,10 @@ function SideNavbar() {
              router.push('/sesion/login');
              setUser(null);
     }
+    
     const customClickCancelModal =()=>{
           setIsModalOpen(false);
     }
-
 
     const fetchCookie = async (obj = {}) => {
       try {
@@ -85,10 +85,6 @@ function SideNavbar() {
         setVerticalActive(window.location.pathname);
       }
     }, []);
-
-   
-   
-  
 
   return (
     

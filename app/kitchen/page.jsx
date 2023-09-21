@@ -4,9 +4,23 @@ import React, { useState, useEffect } from 'react';
 import APIUtility from '@/services/ApiUtility';
 import Modal from '@/components/Modal';
 import ModalOrderDetails from '@/components/ModalOrderDetails';
-//import { useRouter } from 'next/navigation'
 
-function Kitchen({userId=1}) {
+
+function Kitchen() {
+
+  //GET COOCKIES 
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
 
   //UPDATE COMPONENT
   const [update, setUpdate] = useState(true);
@@ -74,7 +88,7 @@ function Kitchen({userId=1}) {
         payment_state : orderDetails.payment_state, 
         state: state, 
         discount_id : null, 
-        modified_by: userId, 
+        modified_by: idUser, 
         status: orderDetails.status
     }
       const url = `/api/order/${orderId}`;
@@ -241,6 +255,10 @@ function Kitchen({userId=1}) {
       getOrders();
     }, 10000);
     
+  }, []);
+
+  useEffect(()=>{
+    fetchCookie();
   }, [])
   
   

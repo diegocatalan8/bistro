@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 
-function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, idUser=1, dataToEdit}) {
+function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, dataToEdit}) {
 
     const [items, setItems] = useState([]);
+    
 
     const {register, formState:{errors}, reset, handleSubmit} = useForm();
 
@@ -24,6 +25,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
       }
     }
 
+    
     const create = async (data) => {
 
       try {
@@ -38,6 +40,7 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
           idUser:idUser,
 
         }
+
         const url = '/api/variation';
         const response = await APIUtility.postData(url, structure);
         console.log('Datos recibidos:', response);
@@ -79,8 +82,22 @@ function VariationForm({httpMethod ={post:true, put:false}, routeName, pushTo, i
       }
     };
 
+    const [idUser, setIdUser] = useState(null);
+    const fetchCookie = async (obj = {}) => {
+      try {
+        const url = '/api/userloged';
+        const response = await APIUtility.postData(url, obj);
+        console.log('Datos recibidos:', response);
+        setIdUser(response.response.id);
+      } 
+      catch (error) {
+        console.error('Error en la petición:', error.message);
+      }
+    };
+
     useEffect(()=>{
         getItems();
+        fetchCookie();
     }, [])
   
   return (

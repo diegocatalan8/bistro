@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 import { Fragment, useRef} from 'react';
@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 
 
-function CreateOrderForm({isModalOpen, closeModal, idUser=1}) {
+function CreateOrderForm({isModalOpen, closeModal}) {
 
   const router = useRouter();
   const cancelButtonRef = useRef(null);
@@ -19,6 +19,20 @@ function CreateOrderForm({isModalOpen, closeModal, idUser=1}) {
       //console.log(data);
       create(data);
   }
+
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+      try {
+        const url = '/api/userloged';
+        const response = await APIUtility.postData(url, obj);
+        console.log('Datos recibidos:', response);
+        setIdUser(response.response.id);
+      } 
+      catch (error) {
+        console.error('Error en la petición:', error.message);
+      }
+  };
+
 
   const create = async (obj) => {
     try {
@@ -38,6 +52,11 @@ function CreateOrderForm({isModalOpen, closeModal, idUser=1}) {
     }
   };
 
+
+  useEffect(() => {
+    fetchCookie();
+  }, []);
+  
   
 
   return (

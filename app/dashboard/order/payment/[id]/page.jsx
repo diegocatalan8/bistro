@@ -7,10 +7,24 @@ import { useRouter } from 'next/navigation';
 import LoadingPage from '@/components/LoadingPage';
 
 
-function PaymentOrder({params, idUser=1}) {
+function PaymentOrder({params}) {
 
   //Router
   const router = useRouter();
+
+  //GET COOCKIES 
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
 
   //USE FORM
   const {register, formState:{errors}, handleSubmit, reset} = useForm();
@@ -113,6 +127,7 @@ function PaymentOrder({params, idUser=1}) {
 
   useEffect(()=>{
     getProducts();
+    fetchCookie();
 
     if (typeof window !== 'undefined') {
       setIsCartOpen(window.innerWidth < 821 ? false : true);

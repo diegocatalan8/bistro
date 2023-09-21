@@ -4,7 +4,7 @@ import { BiPencil } from 'react-icons/bi';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from '@/components/Modal'; 
 
-function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, activePostHttpMethod, dataToEdit, setDataToEdit, idUser=1}) {
+function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, activePostHttpMethod, dataToEdit, setDataToEdit}) {
 
   //Data
   const [data, setData] = useState([]);
@@ -57,6 +57,19 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
   });
 
   //FETCH
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
+
   const getData = async () => {
     try {
       const response = await APIUtility.fetchData(`/api/${getItems}`);
@@ -88,7 +101,11 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
 
   useEffect(()=>{
     getData();
-  }, [getItems, isModalOpen])
+  }, [getItems, isModalOpen]);
+
+  useEffect(()=>{
+    fetchCookie();
+  }, []);
 
 
   return (
