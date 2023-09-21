@@ -7,7 +7,7 @@ import LoadingPage from '@/components/LoadingPage';
 export default async function Home() {
   const router = useRouter();
   useEffect(()=>{
-    router.push('/dashboard')
+    router.push('/dashboard/order')
   }, [])
 
 
