@@ -6,15 +6,30 @@ import {useRouter} from 'next/navigation';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from './Modal';
 
-function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, setIsCartOpen, userId = 1}) {
+function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, setIsCartOpen}) {
   
   //ROUTER
   const router = useRouter();
+
+  //GET COOCKIES 
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
+
   //GET DATA
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
-      const productsList = await APIUtility.fetchData(`http://localhost:3000/api/cart/${orderId}`);
+      const productsList = await APIUtility.fetchData(`/api/cart/${orderId}`);
       setProducts(productsList.response);
       console.log(productsList.response);
     } catch (error) {
@@ -33,7 +48,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         idItem: idToDelete,
         active: false,
       }
-      const url = `http://localhost:3000/api/cart/${orderId}`;
+      const url = `/api/cart/${orderId}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
@@ -51,10 +66,10 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         payment_state : orderDetails.payment_state, 
         state: 'toaccept', 
         discount_id : null, 
-        modified_by: userId, 
+        modified_by: idUser, 
         status: true
     }
-      const url = `http://localhost:3000/api/order/${orderId}`;
+      const url = `/api/order/${orderId}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
@@ -71,10 +86,10 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
         payment_state : orderDetails.payment_state, 
         state: orderDetails.state, 
         discount_id : orderDetails.discount_id, 
-        modified_by: userId, 
+        modified_by: idUser, 
         status: false
     }
-      const url = `http://localhost:3000/api/order/${orderId}`;
+      const url = `/api/order/${orderId}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
@@ -130,7 +145,11 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
   useEffect(()=>{
         setIsSendComandaDisabled((products.length > 0 && orderDetails.state === 'registered' && orderDetails.status === true)  ? false : true);
         setIsConfirmButtonDisabled(orderDetails.status === false || products.length === 0 ? true : false);
-  }, [products, orderDetails.state, orderDetails.status])
+  }, [products, orderDetails.state, orderDetails.status]);
+
+  useEffect(()=>{
+    fetchCookie();
+  }, [])
 
   
 
@@ -174,7 +193,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                             products.map((item)=>(
                                 <div key={item.id} className='p-2 flex flex-row justify-between border-b-2 border-solid border-gray-200 w-full h-[33.33%] '>
                                     {/**COLUMN 1 */}
-                                        <div className='flex flex-col justify-start w-[25%] '>
+                                        <div className='flex flex-col justify-start w-[25%] py-3'>
 
                                             <div  className='w-full rounded-lg border-solid '>
                                                 <img alt='product' src={item.image} className='w-full h-full rounded-lg'/>
@@ -196,7 +215,7 @@ function CartOfOrders({orderDetails, changeState, update, orderId, isCartOpen, s
                                         <div className='flex flex-col justify-between p-2 w-[25%] '>
                                                 <p className='w-full text-center font-bold text-[#4D81F1] md:text-[25px] lg:text-[15px]'>${parseFloat(item.subtotal).toFixed(2)}</p>
 
-                                                <div className={`${orderDetails.state === 'toaccept' || orderDetails.status === false || orderDetails.payment_state === true ? 'hidden' : ''} w-full flex justify-center items-center`}>
+                                                <div className={`${orderDetails.state !== 'registered' || orderDetails.status === false || orderDetails.payment_state === true ? 'hidden' : ''} w-full flex justify-center items-center`}>
                                                     <button onClick={()=>{
                                                         setIsModalOpen(true);
                                                         setIdToDelete(item.id)

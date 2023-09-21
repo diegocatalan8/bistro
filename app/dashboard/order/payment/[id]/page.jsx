@@ -4,18 +4,36 @@ import APIUtility from '@/services/ApiUtility';
 import CartOfPayments from '@/components/CartOfPayments';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import LoadingPage from '@/components/LoadingPage';
 
 
-function PaymentOrder({params, idUser=1}) {
+function PaymentOrder({params}) {
 
   //Router
   const router = useRouter();
+
+  //GET COOCKIES 
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
 
   //USE FORM
   const {register, formState:{errors}, handleSubmit, reset} = useForm();
 
   //GET ID
   const {id} = params;
+
+  //LOADING VALIDATION
+  const [loading, setLoading] = useState(true);
 
   //CREATE PAYMENT
   const createPayment = async (obj) => {
@@ -26,7 +44,7 @@ function PaymentOrder({params, idUser=1}) {
       idOrder: id
     }
     try {
-      const url = 'http://localhost:3000/api/payments';
+      const url = '/api/payments';
       const response = await APIUtility.postData(url, structure);
       console.log('Datos recibidos:', response);
       changeState();
@@ -49,7 +67,7 @@ function PaymentOrder({params, idUser=1}) {
   const [payments, setPayments] = useState([]);
   const getPayments = async () => {
     try {
-      const paymentsList = await APIUtility.fetchData(`http://localhost:3000/api/payments/${id}`);
+      const paymentsList = await APIUtility.fetchData(`/api/payments/${id}`);
       setPayments(paymentsList.response);
       console.log(paymentsList.response);
     } catch (error) {
@@ -62,7 +80,7 @@ function PaymentOrder({params, idUser=1}) {
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
-      const productsList = await APIUtility.fetchData(`http://localhost:3000/api/cart/${id}`);
+      const productsList = await APIUtility.fetchData(`/api/cart/${id}`);
       setProducts(productsList.response);
       console.log(productsList.response);
     } catch (error) {
@@ -75,7 +93,7 @@ function PaymentOrder({params, idUser=1}) {
   const[orderDetails, setOrderDetails] = useState([]);
   const getOrderDetails = async () => {
     try {
-      const ordersList = await APIUtility.fetchData(`http://localhost:3000/api/order/${id}`);
+      const ordersList = await APIUtility.fetchData(`/api/order/${id}`);
       setOrderDetails(ordersList.response);
       console.log(ordersList.response);
     } catch (error) {
@@ -102,10 +120,14 @@ function PaymentOrder({params, idUser=1}) {
   useEffect(()=>{
      getPayments();
      getOrderDetails();
+     setTimeout(() => {
+        setLoading(false)
+     }, 500);
   }, [update]);
 
   useEffect(()=>{
     getProducts();
+    fetchCookie();
 
     if (typeof window !== 'undefined') {
       setIsCartOpen(window.innerWidth < 821 ? false : true);
@@ -113,7 +135,9 @@ function PaymentOrder({params, idUser=1}) {
   }, []);
 
   
-  return (
+  return loading ? (
+      <LoadingPage/>
+    ) : (
     <div className='Container relative z-10  w-full h-full flex flex-row'>
           
           <section className={`Section pl-10 md:px-5  px-5  pt-12 md:pt-6 h-full w-[90%] ${isCartOpen ? 'md:w-[50%]' : 'md:w-[95%]'}  lg:w-[65%] xl:w-[70%] flex flex-col `}>
@@ -124,7 +148,12 @@ function PaymentOrder({params, idUser=1}) {
                           <p className='text-red-500 text-[35px] font-semibold'>CAMBIO Q{-debt}</p>
                           <button
                                       onClick={()=>{
-                                        router.push(`/dashboard/order/${id}`)
+                                        if(orderDetails.state === 'committed'){
+                                          router.push(`/dashboard/order`)
+                                        }else{
+                                          router.push(`/dashboard/order/${id}`)
+                                        }
+                                        
                                       }}
                                       type='button'
                                       className='mt-6 w-[48%]  flex  h-[46px] p-3  justify-center rounded-md  border-2 border-solid border-red-600  text-[18px] font-semibold leading-6 text-white shadow-sm hover:bg-red-600 bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'
@@ -155,7 +184,7 @@ function PaymentOrder({params, idUser=1}) {
                                                           type="text"
                                                           name="amount"
                                                           id="amount"
-                                                          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                          className="block w-full rounded-md border border-solid border-gray-400 py-1.5 pl-7 pr-20 text-gray-900  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                           placeholder="0.00"
                                                           {...register('amount',{
                                                             required:true,
@@ -217,7 +246,8 @@ function PaymentOrder({params, idUser=1}) {
          <CartOfPayments totalToPay={totalToPay} orderId={id} orderDetails={orderDetails} changeState={changeState} update={update} debt={debt}  isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
 
     </div>
-  )
+    )  
+  
 }
 
 export default PaymentOrder

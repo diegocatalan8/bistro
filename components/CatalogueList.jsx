@@ -4,7 +4,7 @@ import { BiPencil } from 'react-icons/bi';
 import { BiSolidTrashAlt } from 'react-icons/bi';
 import Modal from '@/components/Modal'; 
 
-function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, activePostHttpMethod, dataToEdit, setDataToEdit, idUser=1}) {
+function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, activePostHttpMethod, dataToEdit, setDataToEdit}) {
 
   //Data
   const [data, setData] = useState([]);
@@ -57,9 +57,22 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
   });
 
   //FETCH
+  const [idUser, setIdUser] = useState(null);
+  const fetchCookie = async (obj = {}) => {
+        try {
+          const url = '/api/userloged';
+          const response = await APIUtility.postData(url, obj);
+          console.log('Datos recibidos:', response);
+          setIdUser(response.response.id);
+        } 
+        catch (error) {
+          console.error('Error en la petición:', error.message);
+        }
+  };
+
   const getData = async () => {
     try {
-      const response = await APIUtility.fetchData(`http://localhost:3000/api/${getItems}`);
+      const response = await APIUtility.fetchData(`/api/${getItems}`);
       setData(response.response);
       console.log(response.response);
     } catch (error) {
@@ -76,7 +89,7 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
                 active:false,
           }
 
-      const url = `http://localhost:3000/api/${getItems}/desactivate/${dataToEdit.id}`;
+      const url = `/api/${getItems}/desactivate/${dataToEdit.id}`;
       const response = await APIUtility.putData(url, dataDesactivate);
       console.log('Datos actualizados:', response);
       
@@ -88,7 +101,11 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
 
   useEffect(()=>{
     getData();
-  }, [getItems, isModalOpen])
+  }, [getItems, isModalOpen]);
+
+  useEffect(()=>{
+    fetchCookie();
+  }, []);
 
 
   return (
@@ -102,7 +119,7 @@ function CatalogueList({getItems='', pushTo, routeName, activePutHttpMethod, act
             value={productToFind}
             onChange={handleInputChangeSearch}
             autoFocus={true}
-            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+            className='pl-3 block w-full rounded-md  py-1.5 text-gray-900 shadow-sm border border-solid border-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
             />
         </div>
 

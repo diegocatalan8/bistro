@@ -28,7 +28,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
   const create = async (obj) => {
     console.log('Entro');
     try {
-      const url = 'http://localhost:3000/api/discounts';
+      const url = '/api/discounts';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
     } 
@@ -39,7 +39,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
 
   const update = async (obj) => {
     try {
-      const url = `http://localhost:3000/api/discounts/${dataToEdit.id}`;
+      const url = `/api/discounts/${dataToEdit.id}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       
@@ -77,7 +77,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
                             {...register('name',{
                               required:true
                             })}
-                            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                           />
                           {errors.name?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Debe ingresar un nombre.</p>}
                         </div>
@@ -103,7 +103,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
                               required:true
                             })}
                       
-                            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                           />
                           {errors.import_quantity?.type === 'required' && <p className='text-[12px] font-semibold text-red-500'>Debe ingresar una cantidad.</p>}
                         </div>
@@ -122,7 +122,7 @@ function DiscountForm({httpMethod={post:true, put:false}, routeName, pushTo, dat
                         required:httpMethod.post
                       })}
                       defaultValue={dataToEdit?.type || ''}
-                      className="block w-full h-[40px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                      className="pl-2 block w-full h-[40px] rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600"
                     >
                       {httpMethod.put && <option value={dataToEdit.type} disabled>{dataToEdit.type+" "+"(Valor actual)"} </option>}
                       {httpMethod.post && <option value='' disabled>Seleccione una opcion...</option>}

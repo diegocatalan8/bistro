@@ -5,6 +5,7 @@ import { BiReceipt } from 'react-icons/bi';
 import { BiMoney } from 'react-icons/bi';
 import ModalTransaction from '@/components/ModalTransaction';
 import Modal from '@/components/Modal';
+import LoadingPage from '@/components/LoadingPage';
 
 function Transactions() {
   //CHANGE THE STATE OF THE COMPONENT
@@ -17,7 +18,7 @@ function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const getTransactions = async () => {
     try {
-      const transactionsList = await APIUtility.fetchData(`http://localhost:3000/api/payments`);
+      const transactionsList = await APIUtility.fetchData(`/api/payments`);
       setTransactions(transactionsList.response);
       console.log(transactionsList.response);
     } catch (error) {
@@ -30,7 +31,7 @@ function Transactions() {
   const [products, setProducts] = useState([]);
   const getProducts = async (orderId) => {
     try {
-      const productsList = await APIUtility.fetchData(`http://localhost:3000/api/cart/${orderId}`);
+      const productsList = await APIUtility.fetchData(`/api/cart/${orderId}`);
       setProducts(productsList.response);
       console.log(productsList.response);
     } catch (error) {
@@ -43,7 +44,7 @@ function Transactions() {
   const [payments, setPayments] = useState([]);
   const getPayments = async (orderId) => {
     try {
-      const paymentsList = await APIUtility.fetchData(`http://localhost:3000/api/payments/${orderId}`);
+      const paymentsList = await APIUtility.fetchData(`/api/payments/${orderId}`);
       setPayments(paymentsList.response);
       console.log(paymentsList);
     } catch (error) {
@@ -56,7 +57,7 @@ function Transactions() {
   const[orderDetails, setOrderDetails] = useState([]);
   const getOrderDetails = async (orderId) => {
     try {
-      const ordersList = await APIUtility.fetchData(`http://localhost:3000/api/order/${orderId}`);
+      const ordersList = await APIUtility.fetchData(`/api/order/${orderId}`);
       setOrderDetails(ordersList.response);
       console.log(ordersList.response);
     } catch (error) {
@@ -72,7 +73,7 @@ function Transactions() {
       const obj = {
         isRefound: true
       }
-      const url = `http://localhost:3000/api/payments/refound/${products[0]?.order_id}`;
+      const url = `/api/payments/refound/${products[0]?.order_id}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);  
       changeState();
@@ -149,15 +150,23 @@ function Transactions() {
     );
   });
   
+  //LOADING VALIDATION
+  const [loading, setLoading] = useState(true);
 
 
   //USE EFFECT
   useEffect(()=>{
     getTransactions();
+    setTimeout(()=>{
+      setLoading(false);
+    }, 500)
   }, [update]);
 
 
-  return (
+  return loading ? (
+    <LoadingPage/>
+  ) 
+  :(
     <div className='p-4 h-screen w-full flex flex-col'>
         <div className='flex flex-col bg-white h-full w-full rounded-xl p-6'>
 
@@ -172,14 +181,14 @@ function Transactions() {
                         value={transactionToFind}
                         onChange={handleInputChangeSearch}
                         autoFocus={true}
-                        className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                        className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                         />
                     </div>
 
                     <input 
                         type="date" 
                         id="start" 
-                        className='ml-2 lg:ml-0 text-center w-fit font-semibold h-full px-3 block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+                        className='ml-2 lg:ml-0 text-center w-fit font-semibold h-full px-3 block  rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
                         name="trip-start" 
                         value={dateToFind}
                         onChange={(e)=>{

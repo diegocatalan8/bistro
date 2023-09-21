@@ -1,10 +1,9 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import APIUtility from '@/services/ApiUtility';
 import {useRouter} from 'next/navigation'
-import { useAccountContext } from '@/context/account/AccountContext';
 
 function LoginForm() {
   const {
@@ -15,24 +14,26 @@ function LoginForm() {
   } = useForm();
 
   const router = useRouter();
-  const {setUser} = useAccountContext();
+
+  const [alertMessage, setAlertMessage] = useState(false);
   
 
   const onSubmit = (data) => {
-    console.log(data);
-    createSesion(data);
-    
+    createSesion(data);    
   };
 
   const createSesion = async (obj) => {
     try {
-      const url = 'http://localhost:3000/api/login';
+      const url = '/api/login';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
-      //localStorage.setItem('id', response.id);
-      setUser(response.id);
-
-      router.push(`/dashboard/order`);
+      if(response.status === 404 || response.status === 401){
+        setAlertMessage(true);
+        reset();
+      }else{
+        router.push(`/dashboard`);
+      }
+      
     } 
     catch (error) {
       console.error('Error en la petición:', error.message);
@@ -42,6 +43,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='w-full '>
 
+      <p className={`text-red-500 text-center mb-2 ${alertMessage ? '' : 'hidden'}`}>El correo electronico o la contraseña es incorrecta.</p>
       <div>
         <label className='block text-sm font-medium leading-6 text-gray-900'>
          Correo Electronico
@@ -55,7 +57,7 @@ function LoginForm() {
             name='user'
             type='email'
             placeholder='Ingrese su nombre de usuario'
-            className='pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
+            className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm   placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
           />
         </div>
         {errors.user?.type === 'required' && (
@@ -88,7 +90,7 @@ function LoginForm() {
             name='password'
             type='password'
             placeholder='Ingrese su contraseña'
-            className='pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+            className='pl-3 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
           />
         </div>
         {errors.password?.type === 'required' && (

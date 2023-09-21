@@ -10,9 +10,14 @@ import Dropdown from '@/components/Dropdown';
 
 function Order() {
 
+  //UPDATE THE STATE OF THE COMPONENT
+  const [update, setUpdate] = useState(false);
+  const changeComponent = () =>{
+    setUpdate(!update);
+  }
+
   //ROUTER
   const router = useRouter();
-
   const onClickOrder = (id) =>{
     router.push(`/dashboard/order/${id}`)
   } 
@@ -42,7 +47,7 @@ function Order() {
   }
 
   //ACTIVE SELECTION
-  const [selectionActive, setSelectionActive] = useState("Todas");
+  const [selectionActive, setSelectionActive] = useState("Registradas");
   const handleSelectionClick = (value) => {
     if (value === selectionActive) {
       return;
@@ -51,30 +56,38 @@ function Order() {
   };
 
   //SEARCH BAR
-  const [stateToFind, setStateToFind] = useState('');
+  const [stateToFind, setStateToFind] = useState('registered');
   const searcherMotor = orders.filter((item) => {
     
     // This is for search the states of the order
     let upperCaseState = item.state ? item.state.toUpperCase() : "";
+    let stateCommitted = 'committed'
     
     return (
 
-      (!upperCaseState.indexOf(stateToFind.toUpperCase())) &&
+      ((!upperCaseState.indexOf(stateToFind.toUpperCase())) && item.state !== stateCommitted) &&
       (item.status === true)
     );
   });
 
+
   //USE EFFECT
   useEffect(()=>{
     getOrders();
+  }, [update])
+  
+  useEffect(() => {
+    setInterval(()=>{
+      changeComponent();
+    }, 10000)
   }, [])
+  
 
   const buttonsSelect = [
-    {id: 1, name: 'Todas', state: ''},
-    {id: 2, name: 'Registrada', state: 'registered'},
-    {id: 3, name: 'Por Aceptar', state: 'toaccept'},
-    {id: 4, name: 'En Proceso', state: 'inprocess'},
-    {id: 5, name: 'Completadas', state: 'completed'}
+    {id: 1, name: 'Registradas', state: 'registered'},
+    {id: 2, name: 'Por Aceptar', state: 'toaccept'},
+    {id: 3, name: 'En Proceso', state: 'inprocess'},
+    {id: 4, name: 'Completadas', state: 'completed'}
   ]
   
   return (
@@ -85,34 +98,35 @@ function Order() {
             <Dropdown classProp={"w-[70%] md:w-[80%] lg:hidden"} list={buttonsSelect} customClick ={(item)=>{
                 handleSelectionClick(item.name);
                 setStateToFind(item.state);
+                changeComponent();
             }}/>
 
             <div className='w-full h-[50%] hidden lg:flex lg:flex-row justify-start items-center overflow-y-hidden overflow-x-scroll'>
                           
-                          <button className={`ml-3 font-semibold w-fit px-2 py-1 rounded-lg ${selectionActive === 'Todas' ? 'text-white bg-[#2E68FF]' : 'text-black hover:text-white bg-[#D9D9D9] hover:bg-[#2E68FF]'}`} 
-                                  onClick={()=>{
-                                      handleSelectionClick('Todas');
-                                      setStateToFind('');
-                                    }}>Todas</button>
+              
                           <button className={`ml-3 font-semibold w-fit px-2 py-1 rounded-lg ${selectionActive === 'Registradas' ? 'text-white bg-[#2E68FF]' : 'text-black hover:text-white bg-[#D9D9D9] hover:bg-[#2E68FF]'}`} 
                                     onClick={()=>{
                                         handleSelectionClick('Registradas');
                                         setStateToFind('registered');
+                                        changeComponent()
                                       }}>Registradas</button>
                           <button className={`ml-3 font-semibold w-fit px-2 py-1 rounded-lg ${selectionActive === 'Por Aceptar' ? 'text-white bg-[#2E68FF]' : 'text-black hover:text-white bg-[#D9D9D9] hover:bg-[#2E68FF]'}`} 
                                       onClick={()=>{
                                           handleSelectionClick('Por Aceptar');
                                           setStateToFind('toaccept');
+                                          changeComponent();
                                         }}>Por Aceptar</button>
                           <button className={`ml-3 font-semibold w-fit px-2 py-1 rounded-lg ${selectionActive === 'En Proceso' ? 'text-white bg-[#2E68FF]' : 'text-black hover:text-white bg-[#D9D9D9] hover:bg-[#2E68FF]'}`} 
                                   onClick={()=>{
                                       handleSelectionClick('En Proceso');
                                       setStateToFind('inprocess');
+                                      changeComponent();
                                     }}>En Proceso</button>
                           <button className={`ml-3 font-semibold w-fit px-2 py-1 rounded-lg ${selectionActive === 'Completadas' ? 'text-white bg-[#2E68FF]' : 'text-black hover:text-white bg-[#D9D9D9] hover:bg-[#2E68FF]'}`} 
                                   onClick={()=>{
                                     handleSelectionClick('Completadas');
                                     setStateToFind('completed');
+                                    changeComponent();
                                   }}>Completadas</button>
 
                                   
@@ -130,7 +144,9 @@ function Order() {
 
               {
                 searcherMotor.map((item)=>(
-                      <CardOrder customClick={()=>{onClickOrder(item.id)}} key={item.id} item={item}/>
+                      <CardOrder changeComponent={changeComponent} customClick={()=>{
+                        onClickOrder(item.id);
+                      }} key={item.id} item={item}/>
                 ))
               }
 

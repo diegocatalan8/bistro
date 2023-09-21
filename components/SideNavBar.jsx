@@ -12,7 +12,7 @@ import { useAccountContext } from '@/context/account/AccountContext';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from '@headlessui/react';
 import {MdOutlineSettings, MdOutlineLogout} from "react-icons/md";
-import { BiSolidFilePlus, BiListCheck, BiTransferAlt } from 'react-icons/bi';
+import { BiSolidFilePlus, BiTransferAlt } from 'react-icons/bi';
 import { MdArticle } from 'react-icons/md';
 
 
@@ -40,14 +40,14 @@ function SideNavbar() {
              router.push('/sesion/login');
              setUser(null);
     }
+    
     const customClickCancelModal =()=>{
           setIsModalOpen(false);
     }
 
-
     const fetchCookie = async (obj = {}) => {
       try {
-        const url = 'http://localhost:3000/api/logout';
+        const url = '/api/logout';
         const response = await APIUtility.postData(url, obj);
         console.log('Datos recibidos:', response);
         router.push('/sesion/login');
@@ -86,15 +86,11 @@ function SideNavbar() {
       }
     }, []);
 
-   
-   
-  
-
   return (
     
       <Disclosure>
 
-        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="absolute top-0 left-0 md:top-2 md:left-3 z-30 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-[#2E68FF] hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+        <Disclosure.Button onClick={()=>{setIsMenuVisible(!isMenuVisible)}} className="md:hidden absolute top-0 left-0 md:top-2 md:left-3 z-30 inline-flex items-center peer justify-center rounded-md p-2  bg-[#2E68FF] text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
           <GiHamburgerMenu
             className="md:hidden h-6 w-6"
             aria-hidden="true"
@@ -102,8 +98,7 @@ function SideNavbar() {
         </Disclosure.Button>
 
         <div className={`h-screen shadow-lg b-solid border-r border-gray-200 bg-white p-6  ${isMenuVisible ? size : 'hidden'}  w-[60%] md:w-[30%] lg:w-[22%]`}>
-    
-        
+
           <div className="flex flex-col justify-start item-center">
             {/* Logo */}
             <div>
@@ -142,7 +137,6 @@ function SideNavbar() {
               
             </div>
             {/* setting  */}
-           
               <div  className=" my-4 border-b border-gray-100 pb-4">
                 <Link href='/dashboard/configurations'>
                   <div onClick={()=>{handleVerticalClick("/dashboard/configurations")}} className={`${verticalActive === "/dashboard/configurations" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
@@ -183,5 +177,3 @@ function SideNavbar() {
 }
 
 export default SideNavbar;
-
-{/**-left-96 md:-left-[600px] lg:left-0  peer-focus:left-0 peer:transition ease-out delay-150 duration-200*/}

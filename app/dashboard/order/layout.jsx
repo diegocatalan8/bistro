@@ -4,15 +4,9 @@ export const metadata = {
 };
 
 export default function OrderLayout({ children }) {
-
-
   return (
-   
-      <section className="h-screen flex-1 flex flex-col justify-start bg-[#e8e8e8] overflow-hidden">
-           
-              {children}
-           
-      </section>
-   
+    <section className='h-screen flex-1 flex flex-col justify-start bg-[#e8e8e8] overflow-hidden'>
+      {children}
+    </section>
   );
 }
