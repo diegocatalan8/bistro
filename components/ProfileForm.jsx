@@ -1,16 +1,52 @@
 "use client"
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useForm } from 'react-hook-form';
+import APIUtility from '@/services/ApiUtility';
 
 
 function ProfileForm() {
 
-    const {register, formState:{errors}, handleSubmit} = useForm();
+    const {register, formState:{errors}, handleSubmit, reset} = useForm();
 
+     //COOKIE ID USER
+     const [idUser, setIdUser] = useState(null);
+     const fetchCookie = async (obj = {}) => {
+             try {
+             const url = '/api/userloged';
+             const response = await APIUtility.postData(url, obj);
+             console.log('Datos recibidos:', response);
+             setIdUser(response.response.id);
+             } 
+             catch (error) {
+             console.error('Error en la petición:', error.message);
+             }
+     };
 
     const onSubmit = (data) =>{
         console.log(data);
+        update(data, idUser);
+        reset();
     }
+
+    const update = async (data, id) => {
+        try {
+          
+          const url = `/api/user/profile/${id}`;
+          const response = await APIUtility.putData(url, data);
+          console.log('Datos actualizados:', response);
+         
+        } catch (error) {
+          console.error('Error en la petición:', error.message);
+         
+        }
+    };
+
+
+  useEffect(() => {
+    fetchCookie();
+
+  }, [])
+  
 
    
   return (
@@ -18,29 +54,6 @@ function ProfileForm() {
                 
                 <div>
                     <div className='w-full'>
-                        <div>
-                            <label
-                            
-                            className='block text-sm font-medium leading-6 text-gray-900'
-                            >
-                            Username
-                            </label>
-                            <div className='mt-2'>
-                            <input
-                                id='username'
-                                name='username'
-                                type='text'
-                                placeholder='Ingrese nombre de usuario'
-                                {...register('username',{
-                                required:true
-                                })}
-                                className='pl-2 block w-full rounded-md border border-solid border-black py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6'
-                            />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='w-full mt-3'>
                         <div>
                             <label
                             
