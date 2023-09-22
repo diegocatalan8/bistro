@@ -27,13 +27,14 @@ function LoginForm() {
       const url = '/api/login';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
+      
       if(response.status === 404 || response.status === 401){
         setAlertMessage(true);
         reset();
-      }else{
-        router.push(`/dashboard`);
       }
-      
+      else{
+        router.push(`/dashboard/order`);
+      }
     } 
     catch (error) {
       console.error('Error en la petición:', error.message);
@@ -43,7 +44,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='w-full '>
 
-      <p className={`text-red-500 text-center mb-2 ${alertMessage ? '' : 'hidden'}`}>El correo electronico o la contraseña es incorrecta.</p>
+      
       <div>
         <label className='block text-sm font-medium leading-6 text-gray-900'>
          Correo Electronico
@@ -77,7 +78,7 @@ function LoginForm() {
               href='#'
               className='font-semibold text-blue-600 hover:text-blue-500'
             >
-              Forgot password?
+              Olvido su contraseña?
             </a>
           </div>
         </div>
@@ -105,7 +106,7 @@ function LoginForm() {
           type='submit'
           className='flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
         >
-          Sign in
+          Iniciar
         </button>
       </div>
     </form>

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import LoadingPage from '@/components/LoadingPage';
 
 
-export default async function Home() {
+export default function Home() {
   const router = useRouter();
   useEffect(()=>{
     router.push('/dashboard/order')

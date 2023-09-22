@@ -29,7 +29,7 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
         active: false,
         userId: idUser
       }
-      const url = `http://localhost:3000/api/payments/${orderDetails.id}`;
+      const url = `/api/payments/${orderDetails.id}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
@@ -50,7 +50,7 @@ function CartOfPayments({totalToPay, orderId, orderDetails, changeState, update,
         modified_by: idUser, 
         status: orderDetails.status
       }
-      const url = `http://localhost:3000/api/order/${orderDetails.id}`;
+      const url = `/api/order/${orderDetails.id}`;
       const response = await APIUtility.putData(url, obj);
       console.log('Datos actualizados:', response);
       changeState();
