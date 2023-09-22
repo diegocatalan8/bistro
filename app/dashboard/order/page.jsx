@@ -26,7 +26,7 @@ function Order() {
   const [orders, setOrders] = useState([]);
   const getOrders = async () => {
     try {
-      const orderList = await APIUtility.fetchData(`http://localhost:3000/api/order`);
+      const orderList = await APIUtility.fetchData(`/api/order`);
       setOrders(orderList.response);
     } catch (error) {
       console.error('Error');
