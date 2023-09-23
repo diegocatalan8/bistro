@@ -10,7 +10,7 @@ export default function Login() {
       <div className=' flex h-fit w-[90%] md:w-[60%]  lg:w-[30%]  flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='w-full '>
           <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-            Inciar Sesion
+            Iniciar Sesion
           </h2>
         </div>
 
