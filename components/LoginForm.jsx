@@ -15,11 +15,12 @@ function LoginForm() {
 
   const router = useRouter();
 
-  const [alertMessage, setAlertMessage] = useState(false);
   
 
+  const [validationCredentials, setValidationCredentials] = useState(false);
+
   const onSubmit = (data) => {
-    createSesion(data);    
+    createSesion(data); 
   };
 
   const createSesion = async (obj) => {
@@ -27,14 +28,13 @@ function LoginForm() {
       const url = '/api/login';
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
-      
-      if(response.status === 404 || response.status === 401){
-        setAlertMessage(true);
-        reset();
-      }
-      else{
+
+      if(response.status === 401){
+          setValidationCredentials(true);
+      }else{
         router.push(`/dashboard/order`);
       }
+      
     } 
     catch (error) {
       console.error('Error en la petición:', error.message);
@@ -44,7 +44,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='w-full '>
 
-      
+      <p className={`${validationCredentials ? 'mb-6 text-center text-[14px] text-red-500 font-semibold' : 'hidden'} `}>El email o la contraseña son incorrectos.</p>
       <div>
         <label className='block text-sm font-medium leading-6 text-gray-900'>
          Correo Electronico
@@ -73,14 +73,6 @@ function LoginForm() {
           <label className='block text-sm font-medium leading-6 text-gray-900'>
             Password
           </label>
-          <div className='text-sm'>
-            <a
-              href='#'
-              className='font-semibold text-blue-600 hover:text-blue-500'
-            >
-              Olvido su contraseña?
-            </a>
-          </div>
         </div>
         <div className='mt-2'>
           <input

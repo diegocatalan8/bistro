@@ -62,7 +62,8 @@ export  async function  POST(request){
       
        //creamos un header y lo enviamos con la cookie
        return NextResponse.json({
-        message:'Succesfully'
+        message:'Succesfully',
+        id:isValidUser.id
        });
     }  
 
