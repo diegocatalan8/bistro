@@ -11,7 +11,7 @@ import { useAccountContext } from '@/context/account/AccountContext';
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from '@headlessui/react';
-import {MdOutlineSettings, MdOutlineLogout} from "react-icons/md";
+import {MdOutlineSettings, MdOutlineLogout, MdSoupKitchen} from "react-icons/md";
 import { BiSolidFilePlus, BiTransferAlt } from 'react-icons/bi';
 import { MdArticle } from 'react-icons/md';
 
@@ -23,6 +23,7 @@ function SideNavbar() {
     const [isMenuVisible, setIsMenuVisible] = useState(true);
     const [size, setSize] = useState("static");
     const [verticalActive, setVerticalActive] = useState('/dashboard/order');
+    const [userRole, setUserRole] = useState();
 
     const {setUser} = useAccountContext();
 
@@ -35,7 +36,7 @@ function SideNavbar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     
     const customClickConfirmModal = async ()=>{
-             await fetchCookie();
+             await closeSesion();
              setIsModalOpen(false);
              router.push('/sesion/login');
              setUser(null);
@@ -45,12 +46,24 @@ function SideNavbar() {
           setIsModalOpen(false);
     }
 
-    const fetchCookie = async (obj = {}) => {
+    const closeSesion = async (obj = {}) => {
       try {
         const url = '/api/logout';
         const response = await APIUtility.postData(url, obj);
         console.log('Datos recibidos:', response);
         router.push('/sesion/login');
+      } 
+      catch (error) {
+        console.error('Error en la petición:', error.message);
+      }
+    };
+
+    const fetchCookie = async (obj = {}) => {
+      try {
+        const url = '/api/userloged';
+        const response = await APIUtility.postData(url, obj);
+        console.log('Datos recibidos:', response);
+        setUserRole(response.response.role);
       } 
       catch (error) {
         console.error('Error en la petición:', error.message);
@@ -65,6 +78,7 @@ function SideNavbar() {
     };
 
     useEffect(() => {
+      fetchCookie();
       if (typeof window !== 'undefined') {
         setSize(window.innerWidth >= 768 ? "static" : "z-20 absolute");
   
@@ -131,6 +145,15 @@ function SideNavbar() {
                     <MdArticle className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/dashboard/catalogue" ? "text-white" : ""}`} />
                     <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/dashboard/catalogue" ? "text-white" : ""}`}>
                     Catalogos
+                    </h3>
+                </div>
+              </Link>
+
+              <Link href='/kitchen'>
+              <div onClick={()=>{handleVerticalClick("/kitchen")}} className={`${verticalActive === "/kitchen" ? "bg-[#2E68FF] shadow-lg m-auto text-white" : ""} flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${userRole === "admin" ? "visible" : "invisible"}`}>
+                    <MdSoupKitchen className={`text-2xl text-gray-600 group-hover:text-white ${verticalActive === "/kitchen" ? "text-white" : ""}`} />
+                    <h3 className={`text-base text-gray-800 group-hover:text-white font-semibold ${verticalActive === "/kitchen" ? "text-white" : ""}`}>
+                    Cocina
                     </h3>
                 </div>
               </Link>

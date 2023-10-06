@@ -18,6 +18,7 @@ function LoginForm() {
   
 
   const [validationCredentials, setValidationCredentials] = useState(false);
+  
 
   const onSubmit = (data) => {
     createSesion(data); 
@@ -29,12 +30,29 @@ function LoginForm() {
       const response = await APIUtility.postData(url, obj);
       console.log('Datos recibidos:', response);
 
+      const userRole = await fetchCookie();
+      console.log(userRole);
+
       if(response.status === 401){
           setValidationCredentials(true);
+      }else if (userRole === 'kitchener'){
+        router.push('/kitchen');
       }else{
         router.push('/dashboard/order');
       }
       
+    } 
+    catch (error) {
+      console.error('Error en la petición:', error.message);
+    }
+  };
+
+  const fetchCookie = async (obj = {}) => {
+    try {
+      const url = '/api/userloged';
+      const response = await APIUtility.postData(url, obj);
+      console.log('Datos recibidos:', response);
+      return response.response.role;
     } 
     catch (error) {
       console.error('Error en la petición:', error.message);

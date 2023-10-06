@@ -2,12 +2,13 @@ import  jwt  from "jsonwebtoken";
 import { conn } from '@/utils/database';
 import { NextResponse } from 'next/server' 
 import { cookies } from "next/headers";
+import { RouteModule } from "next/dist/server/future/route-modules/route-module";
 
 
 
 export async function validation(email, password) {
     try {
-        const query ="SELECT id, email, password FROM tbl_user WHERE email = $1"
+        const query ="SELECT id, email, password, role FROM tbl_user WHERE email = $1"
         const values = [email];
         const response =  await conn.query(query, values);
         const data = response.rows[0]
@@ -16,7 +17,8 @@ export async function validation(email, password) {
         if (data.email === email && data.password === password) {
             return {
                 validation:true,
-                id:data.id
+                id:data.id,
+                role: data.role
             };
         } else {
             return false;
@@ -45,7 +47,7 @@ export  async function  POST(request){
            id:isValidUser.id,
            user: user,
            password:password,
-
+           role: isValidUser.role,
         }, 'secret');
 
 
