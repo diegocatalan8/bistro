@@ -4,18 +4,26 @@ import React, { useState, useEffect } from 'react';
 import APIUtility from '@/services/ApiUtility';
 import Modal from '@/components/Modal';
 import ModalOrderDetails from '@/components/ModalOrderDetails';
+import { MdOutlineLogout, MdArrowBack } from "react-icons/md";
+import { useAccountContext } from '@/context/account/AccountContext';
+import { useRouter } from 'next/navigation';
 
 
 function Kitchen() {
 
+  const {setUser} = useAccountContext();
+  const router = useRouter();
+
   //GET COOCKIES 
   const [idUser, setIdUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const fetchCookie = async (obj = {}) => {
         try {
           const url = '/api/userloged';
           const response = await APIUtility.postData(url, obj);
           console.log('Datos recibidos:', response);
           setIdUser(response.response.id);
+          setUserRole(response.response.role);
         } 
         catch (error) {
           console.error('Error en la petición:', error.message);
@@ -132,12 +140,60 @@ function Kitchen() {
         updateComponent();
    }
 
+   //MODAL FOR CLOSE SESION
+   const modalTextCloseSesion ={
+    title:'Cerrar Sesion',
+    description:'¿Esta seguro que desea continuar?',
+    buttonConfirmText:'Logout'
+  }
+
+   const [isModalCloseSesionOpen, setIsModalCloseSesionOpen] = useState(false);
+    const confirmModalCloseSesion = async ()=>{
+        await closeSesion();
+        setIsModalCloseSesionOpen(false);
+        router.push('/sesion/login');
+        setUser(null);
+    }
+
+    const closeModalCloseSesion =()=>{
+        setIsModalCloseSesionOpen(false);
+    } 
+
+   const closeSesion = async (obj = {}) => {
+    try {
+      const url = '/api/logout';
+      const response = await APIUtility.postData(url, obj);
+      console.log('Datos recibidos:', response);
+      router.push('/sesion/login');
+    } 
+    catch (error) {
+      console.error('Error en la petición:', error.message);
+    }
+  };
+
 
    let componentToRender = (
     <div className='flex flex-col justify-start w-screen h-screen p-6'>
     <h2 className='w-full text-[36px] font-semibold '>Ordenes</h2>
-    <div className='w-full'>
+    <div className='w-full flex flex-row'>
+
+          <MdArrowBack onClick={()=>{
+              router.back()
+            }} className={`text-black cursor-pointer w-[40px] h-[40px] border-2 border-solid border-black rounded-xl mr-5 ${userRole === "kitchener" ? "collapse" : "visible"}`}/>
+
           <MdDownload onClick={updateComponent} className='text-black cursor-pointer w-[40px] h-[40px] border-2 border-solid border-black rounded-xl'/>
+
+          {/* logout */}
+          <div onClick={()=>{
+              setIsModalCloseSesionOpen(true);
+            }} className={`w-[140px] h-[40px] ml-5 ${userRole === "kitchener" ? "visible" : "collapse"}`}>
+            <div  className={` flex mb-2 justify-start items-center w-[140px] h-[40px] gap-4 pl-5 hover:bg-[#2E68FF] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto`}>
+                <MdOutlineLogout className={`text-2xl text-gray-600 group-hover:text-white `}/>
+                <h3 className="text-base text-gray-800 group-hover:text-white font-semibold ">
+                  Salir
+                </h3>
+            </div>
+          </div>
     </div>
     <div className='flex flex-row flex-grow justify-between items-center'>
           {/**First Column */}
@@ -227,6 +283,17 @@ function Kitchen() {
               confirmModal={confirmModalOrderDetails}
               buttonText='Terminar Orden'
               />
+          }
+          {
+              <Modal 
+              title={modalTextCloseSesion.title}
+              description={modalTextCloseSesion.description}
+              buttonConfirmText={modalTextCloseSesion.buttonConfirmText}
+      
+              isModalOpen={isModalCloseSesionOpen}
+              customClickCancelModal={closeModalCloseSesion}
+              customClickConfirmModal={confirmModalCloseSesion}
+              /> 
           }
 
          
